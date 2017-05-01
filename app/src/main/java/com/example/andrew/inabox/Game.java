@@ -27,6 +27,7 @@ import com.example.andrew.inabox.fragments.JoinGame;
 import com.example.andrew.inabox.fragments.TaskFragment;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
+import com.example.andrew.inabox.models.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,7 +123,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         setGamePassword(gamePassword);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://warm-earth-71059.herokuapp.com/api/gameroom/create/";
+        String url = Constants.BASE_URL + "gameroom/create/";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
             new Response.Listener<String>() {
