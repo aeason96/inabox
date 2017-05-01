@@ -58,7 +58,7 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_launch, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         createGame = (Button)view.findViewById(R.id.createGame);
         joinGame = (Button)view.findViewById(R.id.joinGame);

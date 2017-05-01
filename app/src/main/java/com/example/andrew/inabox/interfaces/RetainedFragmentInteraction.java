@@ -1,5 +1,7 @@
 package com.example.andrew.inabox.interfaces;
 
+import android.app.Activity;
+
 /**
  * Created by Andrew on 4/24/2017.
  */

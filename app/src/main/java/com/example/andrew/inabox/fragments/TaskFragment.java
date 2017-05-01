@@ -1,5 +1,6 @@
 package com.example.andrew.inabox.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -46,8 +47,6 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
     public void setActiveFragmentTag(String s) {
         mActiveFragmentTag = s;
     }
-
-
 
 }
 
