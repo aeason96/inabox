@@ -39,7 +39,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     private Fragment homeScreenFragment, taskFragment, createGame, joinGame;
     private FragmentManager fragmentManager;
-    private String gameName, gamePassword;
+    private String gameName, gamePassword, playerName;
     private int gameID;
     private double latitude, longitude;
 
@@ -170,9 +170,44 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         queue.add(stringRequest);
     }
 
-    public void joinGame(String gameName, String gamePassword) {
+    public void joinGame(String gameName, String gamePassword, String playerName) {
 
-
+        setGameName(gameName);
+        setGamePassword(gamePassword);
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.BASE_URL + "player/create/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        //mTextView.setText("Response is: "+ response.substring(0,500));
+                        Log.d("Server", "Server was hit and sent a response");
+                        Log.d("Server", "Response is: "+ response);
+                        try {
+                            JSONObject gameInfo = new JSONObject(response);
+                            int id = gameInfo.getInt("id");
+                            setGameID(id);
+                            Log.d("Game", "ID = " + id);
+                            changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
+                        } catch (JSONException e) {
+                            Log.d("Server Response Error", "JSON Conversion Error");
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error contacting server!", Toast.LENGTH_SHORT).show();
+                Log.d("Error: ", error.toString());
+            }
+        }) {
+            
+        };
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
 
     }
 
@@ -188,4 +223,10 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     }
     private void setGameID(int id) { gameID = id; }
     public int getGameID() { return gameID; }
+    public String getPlayerName() {
+        return playerName;
+    }
+    private void setPlayerName(String name) {
+        playerName = name;
+    }
 }
