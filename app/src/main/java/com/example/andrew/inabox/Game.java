@@ -150,15 +150,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             Request request = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    try {
-                        String name = response.getString("name");
-                        int id = response.getInt("id");
-                        String password = response.getString("password");
-                        gameRoom = new GameRoomModel(id, name, password, null, null); // populate the game room model
-                        changeFragment(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     joinGame(gameName, gamePassword, playerName, true);
                 }
             }, new Response.ErrorListener() {
