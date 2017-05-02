@@ -5,4 +5,13 @@ package com.example.andrew.inabox.models;
  */
 
 public class PlayerModel {
+
+    public GameRoomModel gameRoom;
+    public String name;
+
+    public PlayerModel(String name, GameRoomModel gameRoom) {
+        this.name = name;
+        this.gameRoom = gameRoom;
+    }
+
 }
