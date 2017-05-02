@@ -86,10 +86,6 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                         }
                     });
                 }
-                //String request = "question/" + game.getGameID();
-                //value: text
-                //creator: person foreign key
-                //game_room: integer
             }
         }
     }
