@@ -46,6 +46,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     private int gameID;
     private double latitude, longitude;
 
+    private RequestQueue queue;
+
     private GameRoomModel gameRoom;
     private PlayerModel player;
 
@@ -56,6 +58,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         getLocation();
 
         fragmentManager = getSupportFragmentManager();
+
+        queue = Volley.newRequestQueue(this);
 
         taskFragment = (TaskFragment) fragmentManager.findFragmentByTag(TaskFragment.TAG_TASK_FRAGMENT);
         if (taskFragment == null) {
@@ -126,57 +130,42 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     public void createGame(final String gameName, final String gamePassword) {
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.BASE_URL + "gameroom/create/";
+        JSONObject j = null;
+        try {
+            j = new JSONObject(String.format("{\"name\": \"%s\", \"password\": \"%s\"}", gameName, gamePassword));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-            new Response.Listener<String>() {
+        if (j != null) {
+            Request request = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(String response) {
-                    // Display the first 500 characters of the response string.
-                    //mTextView.setText("Response is: "+ response.substring(0,500));
+                public void onResponse(JSONObject response) {
                     try {
-                        JSONObject gameInfo = new JSONObject(response);
-                        int id = gameInfo.getInt("id");
-                        String name = gameInfo.getString("name");
-                        String password = gameInfo.getString("password");
-                        gameRoom = new GameRoomModel(id, name, password, null, null);
+                        String name = response.getString("name");
+                        int id = response.getInt("id");
+                        String password = response.getString("password");
+                        gameRoom = new GameRoomModel(id, name, password, null, null); // populate the game room model
                         changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
                     } catch (JSONException e) {
-                        Log.d("Server Response Error", "JSON Conversion Error");
                         e.printStackTrace();
                     }
                 }
             }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error contacting server!", Toast.LENGTH_SHORT).show();
-                Log.d("Error: ", error.toString());
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", gameName);
-                params.put("password", gamePassword);
-                return params;
-            }
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Your game room name was already taken!", Toast.LENGTH_LONG).show();
+                }
+            });
+            queue.add(request);
+        }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
     }
 
     public void joinGame(final String gameName, final String gamePassword, final String playerName) {
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.BASE_URL + "player/create/";
         JSONObject j = null;
         try {
@@ -186,7 +175,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         }
         // Request a string response from the provided URL.
         if (j != null) {
-            new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+            Request request = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
@@ -195,7 +184,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         JSONObject gameInfo = response.getJSONObject("game_room");
                         gameRoom = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
                         player = new PlayerModel(name, gameRoom);
-                        //TODO send person off to another fragment
                         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
 
@@ -209,6 +197,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                     Toast.makeText(getApplicationContext(), "Your game room name or password was incorrect", Toast.LENGTH_LONG).show();
                 }
             });
+            queue.add(request);
         }
     }
 
