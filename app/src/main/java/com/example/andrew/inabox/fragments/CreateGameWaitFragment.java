@@ -53,6 +53,8 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
 
         btnDoneAcceptingPlayers.setOnClickListener(this);
         pollThread = new Thread(new Runnable() {
+
+            @Override
             public void run() {
                 while(true) {
                     if (!done) {
@@ -77,18 +79,21 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                 //
                             }
                         });
+
+                        game.getRequestQueue().add(jsonArrayRequest);
                     }
                     else {
                         return;
                     }
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     }
                     catch(InterruptedException ex){
-                        continue;
+                        ex.printStackTrace();
                     }
                 }
             }
+
         });
         pollThread.start();
 

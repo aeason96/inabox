@@ -213,4 +213,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         return gameRoom;
     }
 
+    public RequestQueue getRequestQueue() {
+        return this.queue;
+    }
+
 }
