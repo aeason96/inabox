@@ -38,9 +38,9 @@ public class JoinGame extends Fragment implements View.OnClickListener {
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_join_game, container, false);
 
+        playerName = (EditText) view.findViewById(R.id.player_name);
         gameName = (EditText) view.findViewById(R.id.game_name);
         gamePassword = (EditText) view.findViewById(R.id.game_password);
-        playerName = (EditText) view.findViewById(R.id.player_name);
         joinButton = (Button) view.findViewById(R.id.join_button);
 
         return view;
