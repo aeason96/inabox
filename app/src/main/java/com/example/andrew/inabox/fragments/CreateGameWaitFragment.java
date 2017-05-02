@@ -72,6 +72,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                         else{
                                             textViewPlayersJoined.setText("" + numPlayers + " players are in the game");
                                         }
+                                        Toast.makeText(game.getApplicationContext(), "added to queue", Toast.LENGTH_SHORT).show();
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
@@ -79,10 +80,10 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                 //
                             }
                         });
-
                         game.getRequestQueue().add(jsonArrayRequest);
                     }
                     else {
+                        Toast.makeText(game.getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
                         return;
                     }
                     try {
@@ -115,7 +116,8 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.equals(btnDoneAcceptingPlayers)){
-            Toast.makeText(game.getApplicationContext(), "Done Accepting Players!", Toast.LENGTH_LONG).show();
+            done = true;
+//            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
         }
     }
 }
