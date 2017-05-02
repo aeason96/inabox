@@ -180,7 +180,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         String url = Constants.BASE_URL + "player/create/";
         JSONObject j = null;
         try {
-            j = new JSONObject(String.format("{\"name\": \"%s\", \"game_room\": {\"name\": \"%s\", \"password\": \"%s\"}", playerName, gameName, gamePassword));
+            j = new JSONObject(String.format("{\"name\": \"%s\", \"game_room\": {\"name\": \"%s\", \"password\": \"%s\"}}", playerName, gameName, gamePassword));
         } catch (JSONException e) {
             e.printStackTrace();
         }
