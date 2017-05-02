@@ -34,9 +34,8 @@ public class EnterName extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_enter_name, container, false);
         game = (Game) getActivity();
-
         welcomeText = (TextView) view.findViewById(R.id.game_name);
-        welcomeText.setText("Joining Game: " + game.getGameName());
+        //welcomeText.setText("Joining Game: " + game.getGameName());
         continueButton = (Button) view.findViewById(R.id.continue_button);
         username = (EditText) view.findViewById(R.id.username);
 

@@ -125,9 +125,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     }
 
-    public void createGame(String gameName, String gamePassword) {
-        setGameName(gameName);
-        setGamePassword(gamePassword);
+    public void createGame(final String gameName, final String gamePassword) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.BASE_URL + "gameroom/create/";
@@ -138,13 +136,12 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 public void onResponse(String response) {
                     // Display the first 500 characters of the response string.
                     //mTextView.setText("Response is: "+ response.substring(0,500));
-                    Log.d("Server", "Server was hit and sent a response");
-                    Log.d("Server", "Response is: "+ response);
                     try {
                         JSONObject gameInfo = new JSONObject(response);
                         int id = gameInfo.getInt("id");
-                        setGameID(id);
-                        Log.d("Game", "ID = " + id);
+                        String name = gameInfo.getString("name");
+                        String password = gameInfo.getString("password");
+                        gameRoom = new GameRoomModel(id, name, password, null, null);
                         changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
                     } catch (JSONException e) {
                         Log.d("Server Response Error", "JSON Conversion Error");
@@ -161,12 +158,10 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", getGameName());
-                params.put("password", getGamePassword());
+                params.put("name", gameName);
+                params.put("password", gamePassword);
                 return params;
             }
-
-
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -181,28 +176,30 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     public void joinGame(final String gameName, final String gamePassword, final String playerName) {
 
-        setGameName(gameName);
-        setGamePassword(gamePassword);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.BASE_URL + "player/create/";
         JSONObject j = null;
         try {
-            j = new JSONObject(String.format("{\"name\": \"%s\", \"game_room\": {\"name\": \"%s\", \"password\": \"%s\"}", playerName, gameName, gamePassword));
+            j = new JSONObject(String.format("{\"name\": \"%s\", \"game_room\": {\"name\": \"%s\", \"password\": \"%s\"}}", playerName, gameName, gamePassword));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         // Request a string response from the provided URL.
         if (j != null) {
-            new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
+            new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
                         String name = response.getString("name");
                         int playerID = response.getInt("id");
                         JSONObject gameInfo = response.getJSONObject("game_room");
-                        GameRoomModel game = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
+                        gameRoom = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
+                        player = new PlayerModel(name, gameRoom);
+                        //TODO send person off to another fragment
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -210,7 +207,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Toast.makeText(getApplicationContext(), "Your game room name or password was incorrect", Toast.LENGTH_LONG).show();
                 }
             });
         }
