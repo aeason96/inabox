@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -60,7 +61,12 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                Toast.makeText(game.getApplicationContext(), "added to queue", Toast.LENGTH_SHORT).show();
+                if (numPlayers == 1){
+                    textViewPlayersJoined.setText("1 player is in the game");
+                }
+                else{
+                    textViewPlayersJoined.setText("" + numPlayers + " players are in the game");
+                }
             }
         };
 
@@ -68,6 +74,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
 
             @Override
             public void run() {
+                Looper.prepare();
                 while(true) {
                     if (!done) {
                         String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
@@ -80,13 +87,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                         numPlayers = response.length();
                                         Message message = mHandler.obtainMessage();
                                         message.sendToTarget();
-                                        if (numPlayers == 1){
-                                            textViewPlayersJoined.setText("1 player is in the game");
-                                        }
-                                        else{
-                                            textViewPlayersJoined.setText("" + numPlayers + " players are in the game");
-                                        }
-
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
@@ -98,6 +98,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                     }
                     else {
                         Toast.makeText(game.getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
+                        Looper.loop();
                         return;
                     }
                     try {
@@ -116,22 +117,22 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onPause(){
-        done = true;
-        try {
-            pollThread.join();
-        }
-        catch(InterruptedException ex){
-            ex.printStackTrace();
-        }
-        super.onPause();
-    }
-
-    @Override
     public void onClick(View v) {
         if (v.equals(btnDoneAcceptingPlayers)){
+            game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+                @Override
+                public boolean apply(Request<?> request) {
+                    return true;
+                }
+            });
             done = true;
-//            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
+            try {
+                pollThread.join();
+            }
+            catch(InterruptedException ex){
+                ex.printStackTrace();
+            }
+            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
         }
     }
 }
