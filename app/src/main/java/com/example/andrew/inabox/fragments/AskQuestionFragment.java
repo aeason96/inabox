@@ -11,11 +11,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
+import com.example.andrew.inabox.models.Constants;
+import com.example.andrew.inabox.models.GameRoomModel;
+import com.example.andrew.inabox.models.QuestionModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class AskQuestionFragment extends Fragment implements View.OnClickListener {
+    public static final String TAG_ASK_QUESTION_FRAGMENT = "ask_question_fragment";
     Game game;
     EditText editTextQuestion;
     Button btnSubmit;
@@ -35,7 +45,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
 
         // Inflate the layout for this fragment
         game = (Game) getActivity();
-        View view = inflater.inflate(R.layout.fragment_create_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_ask_question, container, false);
 
         btnSubmit= (Button) view.findViewById(R.id.btnSubmit);
         editTextQuestion = (EditText) view.findViewById(R.id.editTextQuestion);
@@ -51,10 +61,31 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(game.getApplicationContext(), "You're question can't be empty!!", Toast.LENGTH_SHORT);
             }
             else {
-                String request = "question/" + game.getGameID();
-                //value: text
-                //creator: person foreign key
-                //game_room: integer
+                int person_id = game.getPlayer().id;
+                int game_room = game.getGameID();
+                String value = editTextQuestion.getText().toString();
+                QuestionModel q = new QuestionModel(value, game.getPlayer(), game.getGameRoom());
+                String url = Constants.BASE_URL + "question/" + game.getGameID();
+                JSONObject j = null;
+                try {
+                    j = new JSONObject(String.format("{\"value\": \"%s\", \"player\": \"%d\", \"game_room\": \"%d\"}", value, person_id, game_room));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // Request a string response from the provided URL.
+                if (j != null) {
+                    new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                                game.changeFragment(QuestionFragment.TAG_QUESTION_FRAGMENT);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+                }
             }
         }
     }

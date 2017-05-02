@@ -81,7 +81,7 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
         }
         if(v.equals(joinGame)){
             System.out.println("JOIN GAME PRESSED");
-            activity.changeFragment(JoinGame.TAG_JOIN_FRAGMENT);
+            activity.changeFragment(JoinGameFragment.TAG_JOIN_FRAGMENT);
         }
     }
 }

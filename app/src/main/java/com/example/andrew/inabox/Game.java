@@ -24,7 +24,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.andrew.inabox.fragments.CreateGame;
 import com.example.andrew.inabox.fragments.GameRoom;
 import com.example.andrew.inabox.fragments.HomeScreenFragment;
-import com.example.andrew.inabox.fragments.JoinGame;
+import com.example.andrew.inabox.fragments.JoinGameFragment;
+import com.example.andrew.inabox.fragments.JoinWaitFragment;
 import com.example.andrew.inabox.fragments.TaskFragment;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
@@ -71,7 +72,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         } else {
             // Get references to the fragments if they existed, null otherwise
             createGame = fragmentManager.findFragmentByTag(CreateGame.TAG_CREATE_FRAGMENT);
-            joinGame = fragmentManager.findFragmentByTag(JoinGame.TAG_JOIN_FRAGMENT);
+            joinGame = fragmentManager.findFragmentByTag(JoinGameFragment.TAG_JOIN_FRAGMENT);
         }
 
     }
@@ -101,8 +102,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             fragmentClass = CreateGame.class;
         } else if (fragment_name.equals(GameRoom.TAG_GAME_ROOM_FRAGMENT)) {
             fragmentClass = GameRoom.class;
-        } else if (fragment_name.equals(JoinGame.TAG_JOIN_FRAGMENT)) {
-            fragmentClass = JoinGame.class;
+        } else if (fragment_name.equals(JoinGameFragment.TAG_JOIN_FRAGMENT)) {
+            fragmentClass = JoinGameFragment.class;
         }
 
         try {
@@ -201,7 +202,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         int playerID = response.getInt("id");
                         JSONObject gameInfo = response.getJSONObject("game_room");
                         GameRoomModel game = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
-//                        player = new PlayerModel()
+                        changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -219,30 +220,30 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         return gameName;
     }
 
-    private void setGameName(String name) {
+    public void setGameName(String name) {
         gameName = name;
     }
 
     public String getGamePassword() { return gamePassword; }
 
-    private void setGamePassword(String name) {
+    public void setGamePassword(String name) {
         gamePassword = name;
     }
 
-    private void setGameID(int id) { gameID = id; }
+    public void setGameID(int id) { gameID = id; }
     public int getGameID() { return gameID; }
     public String getPlayerName() {
         return playerName;
     }
-    private void setPlayerName(String name) {
+    public void setPlayerName(String name) {
         playerName = name;
     }
 
-    private PlayerModel getPlayer() {
+    public PlayerModel getPlayer() {
         return this.player;
     }
 
-    private GameRoomModel getGameRoom() {
+    public GameRoomModel getGameRoom() {
         return gameRoom;
     }
 

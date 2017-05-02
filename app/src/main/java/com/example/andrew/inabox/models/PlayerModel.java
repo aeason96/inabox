@@ -8,6 +8,7 @@ public class PlayerModel {
 
     public GameRoomModel gameRoom;
     public String name;
+    public int id;
 
     public PlayerModel(String name, GameRoomModel gameRoom) {
         this.name = name;
