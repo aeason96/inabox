@@ -77,7 +77,7 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
         System.out.println("View v = " + v.getId());
         if(v.equals(createGame)){
             System.out.println("CREATE GAME PRESSED");
-            activity.changeFragment(CreateGame.TAG_CREATE_FRAGMENT);
+            activity.changeFragment(CreateGameFragment.TAG_CREATE_FRAGMENT);
         }
         if(v.equals(joinGame)){
             System.out.println("JOIN GAME PRESSED");

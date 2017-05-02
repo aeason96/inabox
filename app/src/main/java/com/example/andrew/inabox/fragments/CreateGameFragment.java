@@ -1,7 +1,5 @@
 package com.example.andrew.inabox.fragments;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +12,7 @@ import android.widget.Toast;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 
-public class CreateGame extends Fragment implements View.OnClickListener {
+public class CreateGameFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG_CREATE_FRAGMENT = "create_fragment";
     Game game;
@@ -22,12 +20,12 @@ public class CreateGame extends Fragment implements View.OnClickListener {
     EditText gamePassword;
     Button startButton;
 
-    public CreateGame() {
+    public CreateGameFragment() {
         // Required empty public constructor
     }
 
-    public static CreateGame newInstance() {
-        CreateGame fragment = new CreateGame();
+    public static CreateGameFragment newInstance() {
+        CreateGameFragment fragment = new CreateGameFragment();
         return fragment;
     }
 

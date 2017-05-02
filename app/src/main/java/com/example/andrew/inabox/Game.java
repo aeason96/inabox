@@ -10,22 +10,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.andrew.inabox.fragments.CreateGame;
-import com.example.andrew.inabox.fragments.GameRoom;
+import com.example.andrew.inabox.fragments.AskQuestionFragment;
+import com.example.andrew.inabox.fragments.CreateGameFragment;
+import com.example.andrew.inabox.fragments.CreateGameWaitFragment;
+import com.example.andrew.inabox.fragments.GameRoomFragment;
 import com.example.andrew.inabox.fragments.HomeScreenFragment;
 import com.example.andrew.inabox.fragments.JoinGameFragment;
 import com.example.andrew.inabox.fragments.JoinWaitFragment;
+import com.example.andrew.inabox.fragments.QuestionFragment;
 import com.example.andrew.inabox.fragments.TaskFragment;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
@@ -35,9 +35,6 @@ import com.example.andrew.inabox.models.PlayerModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
@@ -74,7 +71,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             fragmentManager.beginTransaction().replace(R.id.game, homeScreenFragment).commit();
         } else {
             // Get references to the fragments if they existed, null otherwise
-            createGame = fragmentManager.findFragmentByTag(CreateGame.TAG_CREATE_FRAGMENT);
+            createGame = fragmentManager.findFragmentByTag(CreateGameFragment.TAG_CREATE_FRAGMENT);
             joinGame = fragmentManager.findFragmentByTag(JoinGameFragment.TAG_JOIN_FRAGMENT);
         }
 
@@ -101,12 +98,23 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
         Fragment fragment;
         Class fragmentClass = null;
-        if (fragment_name.equals(CreateGame.TAG_CREATE_FRAGMENT)) {
-            fragmentClass = CreateGame.class;
-        } else if (fragment_name.equals(GameRoom.TAG_GAME_ROOM_FRAGMENT)) {
-            fragmentClass = GameRoom.class;
+
+        if (fragment_name.equals(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT)) {
+            fragmentClass = AskQuestionFragment.class;
+        } else if (fragment_name.equals(CreateGameFragment.TAG_CREATE_FRAGMENT)) {
+            fragmentClass = CreateGameFragment.class;
+        } else if (fragment_name.equals(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT)){
+            fragmentClass = CreateGameWaitFragment.class;
+        } else if (fragment_name.equals(GameRoomFragment.TAG_GAME_ROOM_FRAGMENT)) {
+            fragmentClass = GameRoomFragment.class;
+        } else if (fragment_name.equals(HomeScreenFragment.TAG_HOME_FRAGMENT)){
+            fragmentClass = HomeScreenFragment.class;
         } else if (fragment_name.equals(JoinGameFragment.TAG_JOIN_FRAGMENT)) {
             fragmentClass = JoinGameFragment.class;
+        } else if (fragment_name.equals(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT)){
+            fragmentClass = JoinWaitFragment.class;
+        } else if (fragment_name.equals(QuestionFragment.TAG_QUESTION_FRAGMENT)){
+            fragmentClass = QuestionFragment.class;
         }
 
         try {
@@ -147,7 +155,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         int id = response.getInt("id");
                         String password = response.getString("password");
                         gameRoom = new GameRoomModel(id, name, password, null, null); // populate the game room model
-                        changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
+                        changeFragment(GameRoomFragment.TAG_GAME_ROOM_FRAGMENT);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

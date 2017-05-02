@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andrew.inabox.fragments.GameRoomFragment">
+    tools:context="com.example.andrew.inabox.fragments.CreateGameWaitFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
     <TextView
-        android:id="@+id/game_name"
-        android:layout_width="108dp"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
+
 </FrameLayout>
