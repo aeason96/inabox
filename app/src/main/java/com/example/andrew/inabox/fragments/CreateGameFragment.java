@@ -18,6 +18,7 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
     Game game;
     EditText gameName;
     EditText gamePassword;
+    EditText username;
     Button startButton;
 
     public CreateGameFragment() {
@@ -39,6 +40,7 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
 
         gameName = (EditText) view.findViewById(R.id.game_name);
         gamePassword = (EditText) view.findViewById(R.id.game_password);
+        username = (EditText) view.findViewById(R.id.username);
         startButton = (Button) view.findViewById(R.id.start_game);
 
         startButton.setOnClickListener(this);
@@ -51,9 +53,9 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         //Assumes you clicked start game
         if (!gameName.getText().toString().equals("") &&
-                !gamePassword.getText().toString().equals("")) {
+                !gamePassword.getText().toString().equals("") && !username.getText().toString().equals("")) {
             //Start Game
-            game.createGame(gameName.getText().toString(), gamePassword.getText().toString());
+            game.createGame(gameName.getText().toString(), gamePassword.getText().toString(), username.getText().toString());
         }
         else {
             Toast noGameName = Toast.makeText(game.getApplicationContext(),

@@ -6,6 +6,6 @@ package com.example.andrew.inabox.models;
 
 public class Constants {
 
-    public static final String BASE_URL = "https://warm-earth-71059.herokuapp.com/api/";
+    public static final String BASE_URL = "https://shrouded-wave-49103.herokuapp.com/api/";
 
 }
