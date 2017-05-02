@@ -75,38 +75,41 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
             @Override
             public void run() {
                 Looper.prepare();
-                while(true) {
-                    if (!done) {
-                        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                try {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        if (!done) {
+                            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
 
-                        // Request a string response from the provided URL.
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                                new Response.Listener<JSONArray>() {
-                                    @Override
-                                    public void onResponse(JSONArray response) {
-                                        numPlayers = response.length();
-                                        Message message = mHandler.obtainMessage();
-                                        message.sendToTarget();
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(jsonArrayRequest);
+                            // Request a string response from the provided URL.
+                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                                    new Response.Listener<JSONArray>() {
+                                        @Override
+                                        public void onResponse(JSONArray response) {
+                                            numPlayers = response.length();
+                                            Message message = mHandler.obtainMessage();
+                                            message.sendToTarget();
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(jsonArrayRequest);
+                        } else {
+                            Toast.makeText(game.getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                            return;
+                        }
+                        Thread.sleep(500);
                     }
-                    else {
-                        Toast.makeText(game.getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
-                        Looper.loop();
-                        return;
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    }
-                    catch(InterruptedException ex){
-                        ex.printStackTrace();
-                    }
+                    Looper.loop();
+                    return;
+                }
+                catch (InterruptedException ex)
+                {
+                    Looper.loop();
+                    return;
                 }
             }
 
@@ -127,6 +130,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
             });
             done = true;
             try {
+                pollThread.interrupt();
                 pollThread.join();
             }
             catch(InterruptedException ex){
