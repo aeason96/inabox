@@ -175,6 +175,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
 
     }
+
     public String getGameName() {
         return gameName;
     }

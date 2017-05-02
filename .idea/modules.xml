@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/InABox.iml" filepath="$PROJECT_DIR$/InABox.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inabox.iml" filepath="$PROJECT_DIR$/inabox.iml" />
     </modules>
   </component>
 </project>
