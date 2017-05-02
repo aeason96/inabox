@@ -129,13 +129,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                 }
             });
             done = true;
-            try {
-                pollThread.interrupt();
-                pollThread.join();
-            }
-            catch(InterruptedException ex){
-                ex.printStackTrace();
-            }
+            pollThread.interrupt();
             game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
         }
     }
