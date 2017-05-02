@@ -51,7 +51,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(game.getApplicationContext(), "You're question can't be empty!!", Toast.LENGTH_SHORT);
             }
             else {
-                String request = "question/" + game.getGameID();
+                //String request = "question/" + game.getGameID();
                 //value: text
                 //creator: person foreign key
                 //game_room: integer

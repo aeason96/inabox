@@ -40,7 +40,7 @@ public class GameRoom extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game_room, container, false);
 
         gameName = (TextView) view.findViewById(R.id.game_name);
-        gameName.setText(game.getGameName() + "  :  " + game.getGameID());
+        gameName.setText(game.getGameRoom().name + "  :  " + game.getGameRoom().gameID);
         return view;
     }
 

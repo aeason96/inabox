@@ -51,8 +51,8 @@ public class JoinGame extends Fragment implements View.OnClickListener {
         //Assumes you clicked join game
         String name = gameName.getText().toString();
         String password = gamePassword.getText().toString();
-        String playerName = playerName.getText().toString();
+        String player = playerName.getText().toString();
 
-        game.joinGame(name, password, playerName);
+        game.joinGame(name, password, player);
     }
 }
