@@ -76,33 +76,31 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
 
-                            // Request a string response from the provided URL.
-                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                                    new Response.Listener<JSONArray>() {
-                                        @Override
-                                        public void onResponse(JSONArray response) {
-                                            numPlayers = response.length();
-                                            Message message = mHandler.obtainMessage();
-                                            message.sendToTarget();
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    //
-                                }
-                            });
-                            game.getRequestQueue().add(jsonArrayRequest);
+                        // Request a string response from the provided URL.
+                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                                new Response.Listener<JSONArray>() {
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+                                        numPlayers = response.length();
+                                        Message message = mHandler.obtainMessage();
+                                        message.sendToTarget();
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //
+                            }
+                        });
+                        game.getRequestQueue().add(jsonArrayRequest);
                         Thread.sleep(500);
                     }
                     Looper.loop();
-                    return;
                 }
                 catch (InterruptedException ex)
                 {
                     Looper.loop();
-                    return;
                 }
             }
 
@@ -121,13 +119,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                     return true;
                 }
             });
-            try {
-                pollThread.interrupt();
-                pollThread.join();
-            }
-            catch(InterruptedException ex){
-                ex.printStackTrace();
-            }
+            pollThread.interrupt();
             game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
         }
     }

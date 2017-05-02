@@ -137,7 +137,6 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
         });
         pollThread.start();
-
         return view;
     }
 
