@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.andrew.inabox.fragments.AnswerQuestionfragment;
 import com.example.andrew.inabox.fragments.AskQuestionFragment;
 import com.example.andrew.inabox.fragments.CreateGameFragment;
 import com.example.andrew.inabox.fragments.CreateGameWaitFragment;
@@ -99,22 +100,34 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         Fragment fragment;
         Class fragmentClass = null;
 
-        if (fragment_name.equals(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT)) {
-            fragmentClass = AskQuestionFragment.class;
-        } else if (fragment_name.equals(CreateGameFragment.TAG_CREATE_FRAGMENT)) {
-            fragmentClass = CreateGameFragment.class;
-        } else if (fragment_name.equals(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT)){
-            fragmentClass = CreateGameWaitFragment.class;
-        } else if (fragment_name.equals(GameRoomFragment.TAG_GAME_ROOM_FRAGMENT)) {
-            fragmentClass = GameRoomFragment.class;
-        } else if (fragment_name.equals(HomeScreenFragment.TAG_HOME_FRAGMENT)){
-            fragmentClass = HomeScreenFragment.class;
-        } else if (fragment_name.equals(JoinGameFragment.TAG_JOIN_FRAGMENT)) {
-            fragmentClass = JoinGameFragment.class;
-        } else if (fragment_name.equals(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT)){
-            fragmentClass = JoinWaitFragment.class;
-        } else if (fragment_name.equals(QuestionFragment.TAG_QUESTION_FRAGMENT)){
-            fragmentClass = QuestionFragment.class;
+        switch (fragment_name) {
+            case AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT:
+                fragmentClass = AskQuestionFragment.class;
+                break;
+            case CreateGameFragment.TAG_CREATE_FRAGMENT:
+                fragmentClass = CreateGameFragment.class;
+                break;
+            case CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT:
+                fragmentClass = CreateGameWaitFragment.class;
+                break;
+            case GameRoomFragment.TAG_GAME_ROOM_FRAGMENT:
+                fragmentClass = GameRoomFragment.class;
+                break;
+            case HomeScreenFragment.TAG_HOME_FRAGMENT:
+                fragmentClass = HomeScreenFragment.class;
+                break;
+            case JoinGameFragment.TAG_JOIN_FRAGMENT:
+                fragmentClass = JoinGameFragment.class;
+                break;
+            case JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT:
+                fragmentClass = JoinWaitFragment.class;
+                break;
+            case QuestionFragment.TAG_QUESTION_FRAGMENT:
+                fragmentClass = QuestionFragment.class;
+                break;
+            case AnswerQuestionfragment.TAG_ANSWER_QUESTION_FRAGMENT:
+                fragmentClass = AnswerQuestionfragment.class;
+                break;
         }
 
         try {
