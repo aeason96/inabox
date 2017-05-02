@@ -51,17 +51,17 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        //Assumes you clicked start game
-        if (!gameName.getText().toString().equals("") &&
-                !gamePassword.getText().toString().equals("") && !username.getText().toString().equals("")) {
-            //Start Game
-            game.createGame(gameName.getText().toString(), gamePassword.getText().toString(), username.getText().toString());
-        }
-        else {
-            Toast noGameName = Toast.makeText(game.getApplicationContext(),
-                    "Game Name and Password Cannot Be Left Blank.",
-                    Toast.LENGTH_SHORT);
-            noGameName.show();
+        if (v.equals(startButton)) {
+            if (!gameName.getText().toString().equals("") &&
+                    !gamePassword.getText().toString().equals("") && !username.getText().toString().equals("")) {
+                //Start Game
+                game.createGame(gameName.getText().toString(), gamePassword.getText().toString(), username.getText().toString());
+            } else {
+                Toast noGameName = Toast.makeText(game.getApplicationContext(),
+                        "Game Name and Password Cannot Be Left Blank.",
+                        Toast.LENGTH_SHORT);
+                noGameName.show();
+            }
         }
     }
 }
