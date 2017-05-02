@@ -1,6 +1,9 @@
 package com.example.andrew.inabox.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +33,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     Thread pollThread;
     boolean done;
     int numPlayers;
+    Handler mHandler;
 
     public CreateGameWaitFragment(){
 
@@ -52,6 +56,14 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
         textViewPlayersJoined = (TextView) view.findViewById(R.id.textViewPlayersJoined);
 
         btnDoneAcceptingPlayers.setOnClickListener(this);
+
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                Toast.makeText(game.getApplicationContext(), "added to queue", Toast.LENGTH_SHORT).show();
+            }
+        };
+
         pollThread = new Thread(new Runnable() {
 
             @Override
@@ -66,13 +78,15 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                     @Override
                                     public void onResponse(JSONArray response) {
                                         numPlayers = response.length();
+                                        Message message = mHandler.obtainMessage();
+                                        message.sendToTarget();
                                         if (numPlayers == 1){
                                             textViewPlayersJoined.setText("1 player is in the game");
                                         }
                                         else{
                                             textViewPlayersJoined.setText("" + numPlayers + " players are in the game");
                                         }
-                                        Toast.makeText(game.getApplicationContext(), "added to queue", Toast.LENGTH_SHORT).show();
+
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
