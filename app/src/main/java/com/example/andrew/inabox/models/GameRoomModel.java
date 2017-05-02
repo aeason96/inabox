@@ -6,9 +6,9 @@ package com.example.andrew.inabox.models;
 
 public class GameRoomModel {
 
-    private int gameID;
-    String name, password;
-    Double longitude, latitude;
+    public int gameID;
+    public String name, password;
+    public Double longitude, latitude;
 
     public GameRoomModel(int gameID, String name, String password, Double longitude, Double latitude) {
         this.gameID = gameID;
@@ -17,7 +17,5 @@ public class GameRoomModel {
         this.longitude = longitude;
         this.latitude = latitude;
     }
-
-
 
 }
