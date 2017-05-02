@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.andrew.inabox.fragments.CreateGame;
@@ -159,6 +160,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 return params;
             }
 
+
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -170,57 +173,49 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         queue.add(stringRequest);
     }
 
-    public void joinGame(String gameName, String gamePassword, String playerName) {
+    public void joinGame(final String gameName, final String gamePassword, final String playerName) {
 
         setGameName(gameName);
         setGamePassword(gamePassword);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.BASE_URL + "player/create/";
+        JSONObject j = null;
+        try {
+            j = new JSONObject(String.format("{\"name\": \"%s\", \"game_room\": {\"name\": \"%s\", \"password\": \"%s\"}", playerName, gameName, gamePassword));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //mTextView.setText("Response is: "+ response.substring(0,500));
-                        Log.d("Server", "Server was hit and sent a response");
-                        Log.d("Server", "Response is: "+ response);
-                        try {
-                            JSONObject gameInfo = new JSONObject(response);
-                            int id = gameInfo.getInt("id");
-                            setGameID(id);
-                            Log.d("Game", "ID = " + id);
-                            changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
-                        } catch (JSONException e) {
-                            Log.d("Server Response Error", "JSON Conversion Error");
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error contacting server!", Toast.LENGTH_SHORT).show();
-                Log.d("Error: ", error.toString());
-            }
-        }) {
-            
-        };
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        if (j != null) {
+            new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
 
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
     }
 
     public String getGameName() {
         return gameName;
     }
+
     private void setGameName(String name) {
         gameName = name;
     }
+
     public String getGamePassword() { return gamePassword; }
+
     private void setGamePassword(String name) {
         gamePassword = name;
     }
+
     private void setGameID(int id) { gameID = id; }
     public int getGameID() { return gameID; }
     public String getPlayerName() {
