@@ -186,7 +186,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         player = new PlayerModel(name, gameRoom);
                         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         if (creator) {
-                            changeFragment(GameRoomFragment.TAG_GAME_ROOM_FRAGMENT);
+                            changeFragment(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT);
                         } else {
                             changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
                         }
