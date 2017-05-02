@@ -32,7 +32,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     Button btnDoneAcceptingPlayers;
     TextView textViewPlayersJoined;
     Thread pollThread;
-    boolean done;
     int numPlayers;
     Handler mHandler;
 
@@ -77,7 +76,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        if (!done) {
                             String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
 
                             // Request a string response from the provided URL.
@@ -96,11 +94,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                                 }
                             });
                             game.getRequestQueue().add(jsonArrayRequest);
-                        } else {
-                            Toast.makeText(game.getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
-                            Looper.loop();
-                            return;
-                        }
                         Thread.sleep(500);
                     }
                     Looper.loop();
@@ -128,7 +121,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                     return true;
                 }
             });
-            done = true;
             try {
                 pollThread.interrupt();
                 pollThread.join();
