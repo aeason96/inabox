@@ -136,7 +136,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     }
 
-    public void createGame(final String gameName, final String gamePassword) {
+    public void createGame(final String gameName, final String gamePassword, final String playerName) {
         // Instantiate the RequestQueue.
         String url = Constants.BASE_URL + "gameroom/create/";
         JSONObject j = null;
@@ -155,10 +155,11 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         int id = response.getInt("id");
                         String password = response.getString("password");
                         gameRoom = new GameRoomModel(id, name, password, null, null); // populate the game room model
-                        changeFragment(GameRoomFragment.TAG_GAME_ROOM_FRAGMENT);
+                        changeFragment(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    joinGame(gameName, gamePassword, playerName, true);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -171,7 +172,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     }
 
-    public void joinGame(final String gameName, final String gamePassword, final String playerName) {
+    public void joinGame(final String gameName, final String gamePassword, final String playerName, final boolean creator) {
 
         // Instantiate the RequestQueue.
         String url = Constants.BASE_URL + "player/create/";
@@ -193,7 +194,11 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         gameRoom = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
                         player = new PlayerModel(name, gameRoom);
                         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
+                        if (creator) {
+                            changeFragment(GameRoom.TAG_GAME_ROOM_FRAGMENT);
+                        } else {
+                            changeFragment(JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT);
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
