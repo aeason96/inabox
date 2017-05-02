@@ -43,7 +43,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     private Fragment homeScreenFragment, taskFragment, createGame, joinGame;
     private FragmentManager fragmentManager;
-    private String gameName, gamePassword, playerName;
     private int gameID;
     private double latitude, longitude;
 
@@ -211,29 +210,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 }
             });
         }
-    }
-
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String name) {
-        gameName = name;
-    }
-
-    public String getGamePassword() { return gamePassword; }
-
-    public void setGamePassword(String name) {
-        gamePassword = name;
-    }
-
-    public void setGameID(int id) { gameID = id; }
-    public int getGameID() { return gameID; }
-    public String getPlayerName() {
-        return playerName;
-    }
-    public void setPlayerName(String name) {
-        playerName = name;
     }
 
     public PlayerModel getPlayer() {
