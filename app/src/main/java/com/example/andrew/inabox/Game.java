@@ -29,6 +29,8 @@ import com.example.andrew.inabox.fragments.TaskFragment;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
 import com.example.andrew.inabox.models.Constants;
+import com.example.andrew.inabox.models.GameRoomModel;
+import com.example.andrew.inabox.models.PlayerModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +45,9 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     private String gameName, gamePassword, playerName;
     private int gameID;
     private double latitude, longitude;
+
+    private GameRoomModel gameRoom;
+    private PlayerModel player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +196,15 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-
+                    try {
+                        String name = response.getString("name");
+                        int playerID = response.getInt("id");
+                        JSONObject gameInfo = response.getJSONObject("game_room");
+                        GameRoomModel game = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
+//                        player = new PlayerModel()
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -224,4 +237,13 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     private void setPlayerName(String name) {
         playerName = name;
     }
+
+    private PlayerModel getPlayer() {
+        return this.player;
+    }
+
+    private GameRoomModel getGameRoom() {
+        return gameRoom;
+    }
+
 }
