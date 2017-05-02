@@ -10,7 +10,8 @@ public class PlayerModel {
     public String name;
     public int id;
 
-    public PlayerModel(String name, GameRoomModel gameRoom) {
+    public PlayerModel(int id, String name, GameRoomModel gameRoom) {
+        this.id = id;
         this.name = name;
         this.gameRoom = gameRoom;
     }

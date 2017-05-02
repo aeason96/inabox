@@ -40,16 +40,22 @@ public class JoinGameFragment extends Fragment implements View.OnClickListener {
         gamePassword = (EditText) view.findViewById(R.id.game_password);
         joinButton = (Button) view.findViewById(R.id.join_button);
 
+        joinButton.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
         //Assumes you clicked join game
-        String name = gameName.getText().toString();
-        String password = gamePassword.getText().toString();
-        String player = playerName.getText().toString();
+        if (v == joinButton) {
+            String name = gameName.getText().toString();
+            String password = gamePassword.getText().toString();
+            String player = playerName.getText().toString();
 
-        game.joinGame(name, password, player, false);
+            if (!player.equals("") && !password.equals("") && !name.equals("")) {
+                game.joinGame(name, password, player, false);
+            }
+        }
     }
 }
