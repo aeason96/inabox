@@ -29,8 +29,8 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         game = (Game) getActivity();
-        View view = inflater.inflate(R.layout.fragment_question, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_join_wait, container, false);
+        
         return view;
     }
     @Override
