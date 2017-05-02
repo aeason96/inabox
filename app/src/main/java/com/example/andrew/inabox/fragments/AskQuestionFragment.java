@@ -62,10 +62,10 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
             }
             else {
                 int person_id = game.getPlayer().id;
-                int game_room = game.getGameID();
+                int game_room = game.getGameRoom().gameID;
                 String value = editTextQuestion.getText().toString();
                 QuestionModel q = new QuestionModel(value, game.getPlayer(), game.getGameRoom());
-                String url = Constants.BASE_URL + "question/" + game.getGameID();
+                String url = Constants.BASE_URL + "question/" + game_room;
                 JSONObject j = null;
                 try {
                     j = new JSONObject(String.format("{\"value\": \"%s\", \"player\": \"%d\", \"game_room\": \"%d\"}", value, person_id, game_room));
