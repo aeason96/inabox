@@ -58,7 +58,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v.equals(btnSubmit)){
             if (editTextQuestion.getText().toString().length() == 0){
-                Toast.makeText(game.getApplicationContext(), "You're question can't be empty!!", Toast.LENGTH_SHORT);
+                Toast.makeText(game.getApplicationContext(), "Your question can't be empty!!", Toast.LENGTH_SHORT);
             }
             else {
                 int person_id = game.getPlayer().id;
