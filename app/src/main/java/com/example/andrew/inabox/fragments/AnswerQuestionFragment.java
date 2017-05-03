@@ -4,20 +4,17 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
@@ -26,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class AnswerQuestionFragment extends Fragment {
+public class AnswerQuestionFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG_ANSWER_QUESTION_FRAGMENT = "answer_question_fragment";
 
@@ -37,6 +34,7 @@ public class AnswerQuestionFragment extends Fragment {
     private Handler handler;
     private String questionText;
     private Thread pollThread;
+    private Button submitButton;
 
     public AnswerQuestionFragment(){
 
@@ -57,18 +55,11 @@ public class AnswerQuestionFragment extends Fragment {
 
         answer = (EditText) view.findViewById(R.id.answer_edit_text);
 
-        answer.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    submitAnswer();
-                    return true;
-                }
-                return false;
-            }
-        });
-
         question = (TextView) view.findViewById(R.id.question_text);
+
+        submitButton = (Button) view.findViewById(R.id.submit_answer);
+
+        submitButton.setOnClickListener(this);
 
         pollForQuestion();
 
@@ -83,8 +74,7 @@ public class AnswerQuestionFragment extends Fragment {
             public void handleMessage(Message msg) {
                 if (msg.what == 0) { //set the player stuff
                     question.setText(questionText);
-                } else if (msg.what == 1) { //kill the thread
-                    pollThread.interrupt(); //we got the question, stop polling
+                    pollThread.interrupt();
                 }
             }
         };
@@ -93,14 +83,14 @@ public class AnswerQuestionFragment extends Fragment {
             @Override
             public void run() {
                 Looper.prepare();
-                String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/current_question";
+                String url = Constants.BASE_URL + "question/" + game.getGameRoom().gameID;
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
                         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    if (response.getBoolean("accepting_answers")) {
+                                    if (response.getBoolean("active")) {
                                         questionID = response.getInt("id");
                                         questionText = response.getString("value");
                                         Message message = handler.obtainMessage(0);
@@ -128,30 +118,31 @@ public class AnswerQuestionFragment extends Fragment {
     }
 
 
-    public void submitAnswer() {
-        String answerText = answer.getText().toString();
-        String url = Constants.BASE_URL + "answer/create";
-        if (!answerText.equals("")) {
-            JSONObject j = null;
-            try {
-                j = new JSONObject(String.format("{\"value\": \"%s\", \"creator\": \"%d\", \"question\": \"%d\"}", answerText, game.getPlayer().id, questionID));
-            } catch (JSONException e) {
-                e.printStackTrace();
+    public void onClick(View v) {
+        if (v == submitButton) {
+            String answerText = answer.getText().toString();
+            String url = Constants.BASE_URL + "answer/create";
+            if (!answerText.equals("")) {
+                JSONObject j = null;
+                try {
+                    j = new JSONObject(String.format("{\"value\": \"%s\", \"creator\": \"%d\", \"question\": \"%d\"}", answerText, game.getPlayer().id, questionID));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO something should probably go here
+                    }
+                });
+                game.getRequestQueue().add(request);
             }
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //TODO something should probably go here
-                }
-            });
-            game.getRequestQueue().add(request);
+            Toast.makeText(game.getApplicationContext(), "Your answer cannot be empty!", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(game.getApplicationContext(), "Your answer cannot be empty!", Toast.LENGTH_SHORT).show();
     }
 }
