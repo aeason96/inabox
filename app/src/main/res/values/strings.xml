@@ -5,4 +5,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cancel">Cancel</string>
     <string name="done_accepting_players">Done Accepting Players</string>
+    <string name="question_placeholder">Hello</string>
+    <string name="answer_placeholder">Your Answer Here</string>
 </resources>
