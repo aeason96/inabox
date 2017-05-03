@@ -1,6 +1,6 @@
 package com.example.andrew.inabox.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,15 @@ public class AnswerQuestionFragment extends Fragment {
     public static final String TAG_ANSWER_QUESTION_FRAGMENT = "answer_question_fragment";
 
     private Game game;
+
+    public AnswerQuestionFragment(){
+
+    }
+
+    public static AnswerQuestionFragment newInstance() {
+        AnswerQuestionFragment fragment = new AnswerQuestionFragment();
+        return fragment;
+    }
 
 
     @Override

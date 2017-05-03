@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -51,10 +52,12 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         game = (Game) getActivity();
-        View view = inflater.inflate(R.layout.fragment_question, container, false);
+        View view = inflater.inflate(R.layout.fragment_join_wait, container, false);
 
         btnCancelJoinGame = (Button) view.findViewById(R.id.btnCancelJoinGame);
         textViewPlayersInGame = (TextView) view.findViewById(R.id.textViewPlayersInGame);
+
+        btnCancelJoinGame.setOnClickListener(this);
 
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -68,8 +71,15 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 else if (message.what == 1){
+                    Toast.makeText(game.getApplicationContext(), "gameroom closed", Toast.LENGTH_SHORT).show();
                     pollThread.interrupt();
-                    game.changeFragment(null);
+                    game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+                        @Override
+                        public boolean apply(Request<?> request) {
+                            return true;
+                        }
+                    });
+                    game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
                 }
             }
         };
@@ -108,6 +118,8 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                                     public void onResponse(JSONObject response) {
                                         try {
                                             if (!response.getBoolean("accepting_players")) {
+                                                Toast.makeText(game.getApplicationContext(), "game closed 1", Toast.LENGTH_SHORT).show();
+
                                                 Message message = mHandler.obtainMessage(1);
                                                 message.sendToTarget();
                                             }
@@ -122,16 +134,14 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                                 //
                             }
                         });
-                        game.getRequestQueue().add(jsonArrayRequest);
+                        game.getRequestQueue().add(jsonObjectRequest);
                         Thread.sleep(500);
                     }
                     Looper.loop();
-                    return;
                 }
                 catch (InterruptedException ex)
                 {
                     Looper.loop();
-                    return;
                 }
             }
 
@@ -143,7 +153,9 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v){
         if (v.equals(btnCancelJoinGame)){
-            Toast.makeText(game.getApplicationContext(), "cancel not implemented", Toast.LENGTH_SHORT);
+            Toast.makeText(game.getApplicationContext(), "cancel not implemented", Toast.LENGTH_SHORT).show();
+            game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
         }
+
     }
 }
