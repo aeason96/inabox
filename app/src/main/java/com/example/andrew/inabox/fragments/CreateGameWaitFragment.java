@@ -119,7 +119,25 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                     return true;
                 }
             });
+
             pollThread.interrupt();
+
+            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/close";
+
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //
+                }
+            });
+            game.getRequestQueue().add(stringRequest);
+
             game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
         }
     }
