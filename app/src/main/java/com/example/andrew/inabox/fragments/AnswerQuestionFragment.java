@@ -121,7 +121,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         if (v == submitButton) {
             String answerText = answer.getText().toString();
-            String url = Constants.BASE_URL + "answer/create";
+            String url = Constants.BASE_URL + "answer/create/";
             if (!answerText.equals("")) {
                 JSONObject j = null;
                 try {
@@ -141,8 +141,9 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                     }
                 });
                 game.getRequestQueue().add(request);
+            } else {
+                Toast.makeText(game.getApplicationContext(), "Your answer cannot be empty!", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(game.getApplicationContext(), "Your answer cannot be empty!", Toast.LENGTH_SHORT).show();
         }
     }
 }

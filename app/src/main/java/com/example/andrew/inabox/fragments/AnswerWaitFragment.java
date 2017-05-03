@@ -1,6 +1,6 @@
 package com.example.andrew.inabox.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -165,7 +165,6 @@ public class AnswerWaitFragment extends Fragment {
             }
         });
         pollThread.start();
-
     }
 
 }
