@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +42,7 @@ public class AnswerWaitFragment extends Fragment {
     int totalPlayers;
     int answeredPlayers;
 
-    int questionID;
+    int questionID = -1;
 
 
     public AnswerWaitFragment() {
@@ -83,10 +85,39 @@ public class AnswerWaitFragment extends Fragment {
             }
         };
 
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        totalPlayers = response.length() - 1; // -1 because question asker doesn't count
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(request);
+                return null;
+            }
+        };
         return view;
-
     }
 
+    @Override
+    public void onResume() {
+        pollForPlayers();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        pollThread.interrupt();
+        super.onPause();
+    }
 
     public void pollForPlayers() {
         handler = new Handler(Looper.getMainLooper()) {
@@ -95,6 +126,7 @@ public class AnswerWaitFragment extends Fragment {
                 if (msg.what == 0) {
                     remainingPlayers.setText(String.format("%d players haven't answered yet", totalPlayers - answeredPlayers));
                     if (totalPlayers - answeredPlayers == 0) {
+                        pollThread.interrupt();
                         //everyone answered TODO change fragment
                     }
                 }
@@ -105,9 +137,34 @@ public class AnswerWaitFragment extends Fragment {
             @Override
             public void run() {
                 Looper.prepare();
-                String url = Constants.BASE_URL + "answers/" + 
+                try {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        if (questionID != -1) {
+                            String url = Constants.BASE_URL + "answers/" + questionID;
+                            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                                @Override
+                                public void onResponse(JSONArray response) {
+                                    answeredPlayers = response.length();
+                                    Message message = handler.obtainMessage(0);
+                                    message.sendToTarget();
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(request);
+                        }
+                        Thread.sleep(500);
+                    }
+                    Looper.loop();
+                } catch (InterruptedException e) {
+                    Looper.loop();
+                }
             }
-        })
+        });
+        pollThread.start();
 
     }
 
