@@ -8,4 +8,5 @@
     <string name="question_placeholder">Hello</string>
     <string name="answer_placeholder">Your Answer Here</string>
     <string name="done_label">Done</string>
+    <string name="table_row_placeholder">placeholder</string>
 </resources>
