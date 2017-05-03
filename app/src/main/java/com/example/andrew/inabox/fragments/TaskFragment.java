@@ -1,10 +1,15 @@
 package com.example.andrew.inabox.fragments;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
+import com.example.andrew.inabox.service.BackgroundService;
 
 /**
  * Created by Andrew on 4/24/2017.
@@ -24,7 +29,9 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
+        if (!isBackgroundServiceRunning()) {
+            startBackgroundServiceNeeded();
+        }
 
     }
     public TaskFragment() {
@@ -45,6 +52,33 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
 
     public void setActiveFragmentTag(String s) {
         mActiveFragmentTag = s;
+    }
+
+    // checks if the background service is running
+    public boolean isBackgroundServiceRunning() {
+        ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d("background_service", "Checking");
+            if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+                Log.d("background_service", "BackgroundService is already running!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public void startBackgroundServiceNeeded() {
+
+        // check if the background service is running, if not then start it
+        if (!isBackgroundServiceRunning()) {
+            Intent intent = new Intent(getActivity(), BackgroundService.class);
+            getActivity().startService(intent);
+            Log.d("background_service", "BackgroundService  TOLD TO START!");
+
+        }
+
     }
 
 }
