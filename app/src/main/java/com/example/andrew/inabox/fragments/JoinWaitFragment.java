@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
@@ -71,7 +72,6 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 else if (message.what == 1){
-                    Toast.makeText(game.getApplicationContext(), "gameroom closed", Toast.LENGTH_SHORT).show();
                     pollThread.interrupt();
                     game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
                         @Override
@@ -153,8 +153,31 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v){
         if (v.equals(btnCancelJoinGame)){
-            Toast.makeText(game.getApplicationContext(), "cancel not implemented", Toast.LENGTH_SHORT).show();
-            game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
+            pollThread.interrupt();
+            game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+                @Override
+                public boolean apply(Request<?> request) {
+                    return true;
+                }
+            });
+
+            String url = Constants.BASE_URL + "player/" + game.getPlayer() + "/delete";
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //
+                }
+            });
+
+            game.getRequestQueue().add(stringRequest);
+            game.setPlayer(null);
+            game.onBackPressed();
         }
 
     }

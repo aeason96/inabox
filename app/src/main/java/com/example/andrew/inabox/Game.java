@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -211,11 +212,20 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "Your game room name or password was incorrect", Toast.LENGTH_LONG).show();
+                    try {
+                        Toast.makeText(getApplicationContext(), new JSONObject(new String(error.networkResponse.data)).getString("detail"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException ex){
+                        ex.printStackTrace();
+                    }
                 }
             });
             queue.add(request);
         }
+    }
+
+    public void setPlayer(PlayerModel player){
+        this.player = player;
     }
 
     public PlayerModel getPlayer() {

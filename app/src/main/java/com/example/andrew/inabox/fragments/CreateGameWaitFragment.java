@@ -113,32 +113,37 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.equals(btnDoneAcceptingPlayers)){
-            game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
-                @Override
-                public boolean apply(Request<?> request) {
-                    return true;
-                }
-            });
+            if (numPlayers >= 3) {
+                game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+                    @Override
+                    public boolean apply(Request<?> request) {
+                        return true;
+                    }
+                });
 
-            pollThread.interrupt();
+                pollThread.interrupt();
 
-            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/close";
+                String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/close";
 
-            // Request a string response from the provided URL.
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //
-                }
-            });
-            game.getRequestQueue().add(stringRequest);
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(stringRequest);
 
-            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
+                game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
+            }
+            else {
+                Toast.makeText(game.getApplicationContext(), "You must have 3 or more players in your game room to continue!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
