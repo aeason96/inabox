@@ -146,8 +146,19 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
             }
 
         });
-        pollThread.start();
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        pollThread.start();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        pollThread.interrupt();
+        super.onPause();
     }
 
     @Override
@@ -161,7 +172,7 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-            String url = Constants.BASE_URL + "player/" + game.getPlayer() + "/delete";
+            String url = Constants.BASE_URL + "player/" + game.getPlayer().id + "/delete";
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
@@ -169,14 +180,15 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
                         }
                     }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //
-                }
-            });
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //
+                        }
+                    });
 
             game.getRequestQueue().add(stringRequest);
             game.setPlayer(null);
+            game.setGameRoom(null);
             game.onBackPressed();
         }
 

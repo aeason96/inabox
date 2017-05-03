@@ -228,6 +228,10 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         this.player = player;
     }
 
+    public void setGameRoom(GameRoomModel game){
+        this.gameRoom = game;
+    }
+
     public PlayerModel getPlayer() {
         return this.player;
     }
