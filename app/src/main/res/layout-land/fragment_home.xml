@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andrew.inabox.Game">
+    tools:context="com.example.andrew.inabox.Game"
+    android:background="@drawable/ic_trianglify_background">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:text="GAME IN A BOX"
-        android:textSize="25dp"
+        android:textSize="40dp"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="32dp"
@@ -24,22 +25,26 @@
 
     <Button
         android:id="@+id/joinGame"
-        android:layout_width="141dp"
-        android:layout_height="56dp"
+        android:background="@drawable/button_style"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:textSize="20dp"
         android:text="Join a game"
         android:layout_marginTop="49dp"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_marginLeft="104dp"
+        android:layout_marginLeft="64dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/createGame"
-        android:layout_width="141dp"
-        android:layout_height="56dp"
+        android:background="@drawable/button_style"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:textSize="20dp"
         android:text="create a game"
         android:layout_marginTop="49dp"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_marginRight="104dp"
+        android:layout_marginRight="65dp"
         app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

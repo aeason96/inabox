@@ -3,17 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andrew.inabox.fragments.AskQuestionFragment">
+    tools:context="com.example.andrew.inabox.fragments.AskQuestionFragment"
+    android:background="@drawable/ic_trianglify_background">
 
     <EditText
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
+        android:textColorHint="@color/redOrange"
         android:id="@+id/editTextQuestion"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:hint="enter your question :)"
+        android:hint="@string/enter_your_question"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,10 +25,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:background="@drawable/button_style"
+        android:textSize="20dp"
         android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:text="@string/submit"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"

@@ -3,28 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andrew.inabox.fragments.AnswerListFragment">
+    tools:context="com.example.andrew.inabox.fragments.AnswerListFragment"
+    android:background="@drawable/ic_trianglify_background">
 
     <TextView
+        android:background="@drawable/box_edit_text"
+        android:textSize="18dp"
+        android:textColor="@color/black"
         android:id="@+id/textViewAnswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Answers"
+        android:padding="10dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="99dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnContinue"
-        app:layout_constraintVertical_bias="0.347" />
+        app:layout_constraintVertical_bias="0.353"
+        app:layout_constraintHorizontal_bias="0.501" />
 
     <TextView
+        android:background="@drawable/box_edit_text2"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:textColor="@color/black"
         android:id="@+id/textViewQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Questions"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
@@ -32,20 +42,24 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewAnswers"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.523" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/button_style"
+        android:textSize="20dp"
+        android:id="@+id/btnContinue"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:text="@string/done_text"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.902" />
+
 </android.support.constraint.ConstraintLayout>
