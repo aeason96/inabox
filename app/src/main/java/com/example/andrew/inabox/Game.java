@@ -29,7 +29,6 @@ import com.example.andrew.inabox.fragments.GameRoomFragment;
 import com.example.andrew.inabox.fragments.HomeScreenFragment;
 import com.example.andrew.inabox.fragments.JoinGameFragment;
 import com.example.andrew.inabox.fragments.JoinWaitFragment;
-import com.example.andrew.inabox.fragments.QuestionFragment;
 import com.example.andrew.inabox.fragments.TaskFragment;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
@@ -145,9 +144,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 break;
             case JoinWaitFragment.TAG_JOIN_WAIT_FRAGMENT:
                 fragmentClass = JoinWaitFragment.class;
-                break;
-            case QuestionFragment.TAG_QUESTION_FRAGMENT:
-                fragmentClass = QuestionFragment.class;
                 break;
             case AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT:
                 fragmentClass = AnswerQuestionFragment.class;
