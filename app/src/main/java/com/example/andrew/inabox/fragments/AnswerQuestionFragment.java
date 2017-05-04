@@ -80,7 +80,6 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
         submitButton.setOnClickListener(this);
         question.setText("");
-        pollForQuestion();
         return view;
     }
 
@@ -92,13 +91,6 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onResume() {
-        pollThread.interrupt();
-        pollForQuestion();
-        super.onResume();
-    }
-
-    public void pollForQuestion() {
-
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -152,6 +144,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
             }
         });
         pollThread.start();
+        super.onResume();
     }
 
 

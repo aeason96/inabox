@@ -57,6 +57,11 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
 
         btnDoneAcceptingPlayers.setOnClickListener(this);
 
+        return view;
+    }
+
+    @Override
+    public void onResume(){
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
@@ -107,13 +112,6 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
             }
 
         });
-        return view;
-    }
-
-    @Override
-    public void onResume(){
-        pollThread.interrupt();
-        pollThread.start();
         super.onResume();
     }
 

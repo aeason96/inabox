@@ -60,6 +60,11 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
         btnCancelJoinGame.setOnClickListener(this);
 
+        return view;
+    }
+
+    @Override
+    public void onResume(){
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
@@ -146,13 +151,6 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
             }
 
         });
-        return view;
-    }
-
-    @Override
-    public void onResume(){
-        pollThread.interrupt();
-        pollThread.start();
         super.onResume();
     }
 
