@@ -85,6 +85,13 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onResume(){
+        question.setText("");
+        pollThread.start();
+        super.onResume();
+    }
+
+    @Override
     public void onPause() {
         pollThread.interrupt();
         super.onPause();
