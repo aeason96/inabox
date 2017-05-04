@@ -9,8 +9,6 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -140,7 +138,7 @@ public class AnswerWaitFragment extends Fragment {
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
                         if (questionID != -1) {
-                            String url = Constants.BASE_URL + "answers/" + questionID;
+                            String url = Constants.BASE_URL + "answers/" + questionID + "/";
                             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                                 @Override
                                 public void onResponse(JSONArray response) {
