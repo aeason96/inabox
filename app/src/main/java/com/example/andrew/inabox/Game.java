@@ -227,7 +227,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                         JSONObject gameInfo = response.getJSONObject("game_room");
                         gameRoom = new GameRoomModel(gameInfo.getInt("id"), gameInfo.getString("name"), gameInfo.getString("password"), null, null);
                         player = new PlayerModel(playerID, name, gameRoom);
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         if (creator) {
                             changeFragment(CreateGameWaitFragment.TAG_CREATE_GAME_WAIT_FRAGMENT);
                         } else {
