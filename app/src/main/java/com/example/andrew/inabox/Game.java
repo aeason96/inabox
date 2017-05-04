@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.andrew.inabox.fragments.AnswerListFragment;
 import com.example.andrew.inabox.fragments.AnswerQuestionFragment;
+import com.example.andrew.inabox.fragments.AnswerRevealFragment;
 import com.example.andrew.inabox.fragments.AnswerWaitFragment;
 import com.example.andrew.inabox.fragments.AskQuestionFragment;
 import com.example.andrew.inabox.fragments.CreateGameFragment;
@@ -55,6 +56,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     private PlayerModel player;
     public String question = "";
     public int questionID = -1;
+    public boolean master;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +223,9 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 break;
             case AnswerListFragment.TAG_ANSWER_LIST_FRAGMENT:
                 fragmentClass = AnswerListFragment.class;
+                break;
+            case AnswerRevealFragment.TAG_ANSWER_REVEAL_FRAGMENT:
+                fragmentClass = AnswerRevealFragment.class;
                 break;
         }
 

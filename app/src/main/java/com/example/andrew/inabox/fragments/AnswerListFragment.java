@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
@@ -83,32 +85,69 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.equals(btnContinue)) {
-            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
-            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                public void onResponse(JSONObject response) {
-
-                    try {
-                        Log.d("answer list frag", "game master id: " + response.getInt("id") + ", player id: " + game.getPlayer().id);
-                        if (response.getInt("id") == game.getPlayer().id) {
-                            game.question = "";
-                            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
-                        } else {
-                            game.question = "";
-                            game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            if (game.master) {
+                String url = Constants.BASE_URL + "question/" + game.questionID + "/unlock/";
+                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //
-                }
-            });
-            game.getRequestQueue().add(req);
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(request);
+
+                url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(req);
+
+                goOn();
+            }
+            else{
+                //check that game master says its ok
+                String url = Constants.BASE_URL + "question/" + game.questionID + "/question/";
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(game.getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                            if (response.getBoolean("unlocked")) {
+                                goOn();
+                            }
+                            else{
+                                Toast.makeText(game.getApplicationContext(), "Question asker must continue first", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch(JSONException ex){
+                            ex.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(request);
+
+            }
+
 
         }
 
+    }
+
+    public void goOn(){
+        game.changeFragment(AnswerRevealFragment.TAG_ANSWER_REVEAL_FRAGMENT);
     }
 }
