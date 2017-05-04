@@ -43,7 +43,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
-        View view = inflater.inflate(R.layout.fragment_answer_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_answer_reveal, container, false);
 
         textViewAnswersNames = (TextView) view.findViewById(R.id.textViewAnswersNames);
         btnNextQuestion = (Button) view.findViewById(R.id.btnNextQuestion);
