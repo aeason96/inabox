@@ -45,7 +45,6 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
 
         textViewAnswers = (TextView) view.findViewById(R.id.textViewAnswers);
         textViewQuestion = (TextView) view.findViewById(R.id.textViewQuestion);
-
         btnContinue = (Button) view.findViewById(R.id.btnContinue);
         btnContinue.setOnClickListener(this);
         textViewQuestion.setText(game.question);
