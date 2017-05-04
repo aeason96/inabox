@@ -75,10 +75,10 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onResume(){
+    public void onStart(){
         question.setText("");
         pollForQuestion();
-        super.onResume();
+        super.onStart();
     }
 
     @Override
