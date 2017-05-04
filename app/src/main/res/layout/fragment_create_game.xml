@@ -40,12 +40,14 @@
 
     <Button
         android:id="@+id/start_game"
-        android:layout_width="260dp"
-        android:layout_height="105dp"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
         android:text="Start Game!"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="76dp"
-        android:layout_marginLeft="62dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
