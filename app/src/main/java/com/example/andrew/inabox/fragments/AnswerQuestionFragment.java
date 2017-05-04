@@ -1,9 +1,13 @@
 package com.example.andrew.inabox.fragments;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
+import com.example.andrew.inabox.service.BackgroundService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,8 +98,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                                     if (response.getBoolean("active")) {
                                         questionID = response.getInt("id");
                                         game.questionID = questionID;
-                                        game.question = questionText.toString();
-                                        questionText = response.getString("value");
+                                        game.question = response.getString("value");
 
                                         Message message = handler.obtainMessage(0);
                                         message.sendToTarget();
@@ -148,5 +152,32 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                 Toast.makeText(game.getApplicationContext(), "Your answer cannot be empty!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public boolean isBackgroundServiceRunning() {
+        ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d("background_service", "Checking");
+            if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+                Log.d("background_service", "BackgroundService is already running!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void startBackgroundServiceNeeded() {
+
+        // check if the background service is running, if not then start it
+        if (!isBackgroundServiceRunning()) {
+            Intent intent = new Intent(getActivity(), BackgroundService.class);
+            Bundle data = intent.getExtras();
+            //data.putString("player_id", );
+            getActivity().startService(intent);
+            Log.d("background_service", "BackgroundService  TOLD TO START!");
+
+        }
+
     }
 }
