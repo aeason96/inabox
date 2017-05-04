@@ -101,7 +101,7 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
             }
             else{
                 //check that game master says its ok
-                String url = Constants.BASE_URL + "question/" + game.questionID + "/";
+                String url = Constants.BASE_URL + "question/" + game.questionID + "/question/";
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
