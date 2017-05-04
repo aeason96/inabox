@@ -112,6 +112,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onResume(){
+        pollThread.interrupt();
         pollThread.start();
         super.onResume();
     }

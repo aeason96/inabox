@@ -63,6 +63,7 @@ public class AnswerWaitFragment extends Fragment {
 
     @Override
     public void onResume() {
+        pollThread.interrupt();
         pollForPlayers();
         super.onResume();
     }

@@ -151,6 +151,7 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume(){
+        pollThread.interrupt();
         pollThread.start();
         super.onResume();
     }

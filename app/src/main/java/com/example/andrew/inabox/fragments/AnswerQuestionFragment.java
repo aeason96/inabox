@@ -90,6 +90,13 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         super.onPause();
     }
 
+    @Override
+    public void onResume() {
+        pollThread.interrupt();
+        pollForQuestion();
+        super.onResume();
+    }
+
     public void pollForQuestion() {
 
         handler = new Handler(Looper.getMainLooper()) {
