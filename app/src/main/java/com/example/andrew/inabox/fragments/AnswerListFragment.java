@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,10 +83,12 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.equals(btnContinue)) {
-            String url = Constants.BASE_URL + "gameroom/" + game.questionID + "/questionmaster/";
+            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 public void onResponse(JSONObject response) {
+
                     try {
+                        Log.d("answer list frag", "game master id: " + response.getInt("id") + ", player id: " + game.getPlayer().id);
                         if (response.getInt("id") == game.getPlayer().id) {
                             game.question = "";
                             game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
