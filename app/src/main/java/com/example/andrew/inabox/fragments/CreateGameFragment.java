@@ -2,6 +2,7 @@ package com.example.andrew.inabox.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
+import com.example.andrew.inabox.models.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CreateGameFragment extends Fragment implements View.OnClickListener {
 
@@ -52,6 +61,7 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.equals(startButton)) {
+
             if (!gameName.getText().toString().equals("") &&
                     !gamePassword.getText().toString().equals("") && !username.getText().toString().equals("")) {
                 //Start Game

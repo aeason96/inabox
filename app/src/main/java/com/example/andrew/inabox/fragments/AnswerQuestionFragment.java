@@ -55,6 +55,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
+        game.master = false;
         View view = inflater.inflate(R.layout.fragment_answer_question, container, false);
 
 

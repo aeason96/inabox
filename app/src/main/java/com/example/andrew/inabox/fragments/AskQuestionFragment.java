@@ -47,7 +47,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
         btnSubmit= (Button) view.findViewById(R.id.btnSubmit);
         editTextQuestion = (EditText) view.findViewById(R.id.editTextQuestion);
         btnSubmit.setOnClickListener(this);
-
+        game.master = true;
         return view;
     }
 

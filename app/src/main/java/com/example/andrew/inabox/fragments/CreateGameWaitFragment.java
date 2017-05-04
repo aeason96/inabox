@@ -125,7 +125,9 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.equals(btnDoneAcceptingPlayers)){
+
             if (numPlayers >= 3) {
+
                 game.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
                     @Override
                     public boolean apply(Request<?> request) {
@@ -133,9 +135,23 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                     }
                 });
 
+                String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(req);
+
+
                 pollThread.interrupt();
 
-                String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/close";
+                url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/close";
 
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
