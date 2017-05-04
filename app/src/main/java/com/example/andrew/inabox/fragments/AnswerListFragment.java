@@ -18,6 +18,8 @@ import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AnswerListFragment extends Fragment implements View.OnClickListener{
     public static final String TAG_ANSWER_LIST_FRAGMENT = "answer_list_fragment";
@@ -53,8 +55,16 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                
-                textViewAnswers.setText(response.toString());
+                StringBuilder builder = new StringBuilder();
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject j = response.getJSONObject(i);
+                        builder.append(String.format("%s\n\n", j.getString("value")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                textViewAnswers.setText(builder.toString());
             }
         }, new Response.ErrorListener() {
             @Override
