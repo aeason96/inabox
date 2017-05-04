@@ -6,8 +6,8 @@
     android:id="@+id/join_frame">
 
     <EditText
-        android:layout_width="160dp"
-        android:layout_height="46dp"
+        android:layout_width="199dp"
+        android:layout_height="45dp"
         android:inputType="text"
         android:id="@+id/game_name"
         android:hint="Enter Game Name"
@@ -34,8 +34,8 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
-        android:layout_width="150dp"
-        android:layout_height="46dp"
+        android:layout_width="201dp"
+        android:layout_height="45dp"
         android:inputType="text"
         android:id="@+id/player_name"
         android:hint="Enter Your Name"
@@ -45,7 +45,9 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="195dp"
+        tools:layout_editor_absoluteX="66dp" />
 
     <Button
         android:id="@+id/join_button"
