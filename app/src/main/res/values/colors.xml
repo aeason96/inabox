@@ -4,4 +4,22 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="pink">#ff00a7</color>
+    <color name="blue">#002bff</color>
+    <color name="navy">#303F9F</color>
+    <color name="purple">#8900ff</color>
+    <color name="darkPurple">#3F51B5</color>
+    <color name="turquoise">#8cffc8</color>
+    <color name="dolphin">#4799E8</color>
+    <color name="sky">#89f3ff</color>
+    <color name="lightPink">#FFFFBACF</color>
+    <color name="lightOrange">#FFFFC87A</color>
+    <color name="green">#FF6DE390</color>
+    <color name="aquamarine">#00e8c9</color>
+    <color name="golden">#FFFFE364</color>
+    <color name="yellow">#FFFBFF00</color>
+    <color name="orange">#FFFF9100</color>
+    <color name="redOrange">#FFFF6F00</color>
 </resources>

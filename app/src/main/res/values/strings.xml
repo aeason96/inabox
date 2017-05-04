@@ -10,5 +10,9 @@
     <string name="done_label">Done</string>
     <string name="table_row_placeholder">placeholder</string>
     <string name="done_text">continue</string>
+    <string name="enter_game_name">Enter Game Name</string>
+    <string name="enter_game_password">Enter Game Password</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="join">Join!</string>
     <string name="next_question">Next Question</string>
 </resources>

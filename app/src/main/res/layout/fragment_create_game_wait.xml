@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.andrew.inabox.fragments.CreateGameWaitFragment">
-
+    tools:context="com.example.andrew.inabox.fragments.CreateGameWaitFragment"
+    android:background="@drawable/ic_trianglify_background">
 
     <Button
         android:id="@+id/btnDoneAcceptingPlayers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/button_style4"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:textSize="20dp"
         android:text="@string/done_accepting_players"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,6 +23,8 @@
         android:layout_marginBottom="8dp" />
 
     <TextView
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/textViewPlayersJoined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
