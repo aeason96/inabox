@@ -58,24 +58,6 @@ public class AnswerWaitFragment extends Fragment {
         game.activeFragmentType = this.TAG_ANSWER_WAIT_FRAGMENT;
         remainingPlayers = (TextView) view.findViewById(R.id.remaining_players);
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        pollThread.interrupt();
-        pollForPlayers();
-        super.onResume();
-    }
-
-
-    @Override
-    public void onPause() {
-        pollThread.interrupt();
-        super.onPause();
-    }
-
-    public void pollForPlayers() {
 
         final Thread totalThread = new Thread(new Runnable() {
             @Override
@@ -132,7 +114,7 @@ public class AnswerWaitFragment extends Fragment {
                 }
             }
         };
-        
+
 
         totalThread.start();
 
@@ -168,6 +150,22 @@ public class AnswerWaitFragment extends Fragment {
             }
         });
         pollThread.start();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        pollThread.interrupt();
+        pollThread.start();
+        super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        pollThread.interrupt();
+        super.onPause();
     }
 
 }
