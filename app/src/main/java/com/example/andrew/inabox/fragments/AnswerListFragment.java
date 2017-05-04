@@ -30,7 +30,7 @@ public class AnswerListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
-        View view = inflater.inflate(R.layout.fragment_answer_question, container, false);
+        View view = inflater.inflate(R.layout.fragment_answer_list, container, false);
 
 
         return view;
