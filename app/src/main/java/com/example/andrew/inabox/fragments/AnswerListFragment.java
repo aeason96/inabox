@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
@@ -79,6 +80,27 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        if (v.equals(btnContinue)) {
+            String url = Constants.BASE_URL + "gameroom/" + game.questionID + "/questionmaster/";
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                public void onResponse(JSONObject response) {
+                    try {
+                        if (response.getInt("id") == game.getPlayer().id) {
+                            game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
+                        } else {
+                            game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //
+                }
+            });
+        }
 
     }
 }
