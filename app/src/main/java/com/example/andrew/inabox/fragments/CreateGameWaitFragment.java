@@ -112,6 +112,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
             }
 
         });
+        pollThread.start();
         super.onResume();
     }
 
