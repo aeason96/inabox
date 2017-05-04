@@ -157,10 +157,13 @@ public class AnswerWaitFragment extends Fragment {
 
     @Override
     public void onResume() {
-        totalThread.interrupt();
-        pollThread.interrupt();
-        pollThread.start();
-        totalThread.start();
+        if (totalThread != null && !totalThread.isAlive()) {
+            totalThread.start();
+        }
+
+        if (pollThread != null && !pollThread.isAlive()) {
+            pollThread.start();
+        }
         super.onResume();
     }
 
