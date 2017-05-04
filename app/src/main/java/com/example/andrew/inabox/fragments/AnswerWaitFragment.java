@@ -56,6 +56,7 @@ public class AnswerWaitFragment extends Fragment {
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
         questionID = -1;
+        totalPlayers = -1;
         View view = inflater.inflate(R.layout.fragment_answer_wait, container, false);
 
         remainingPlayers = (TextView) view.findViewById(R.id.remaining_players);
@@ -147,7 +148,7 @@ public class AnswerWaitFragment extends Fragment {
                     remainingPlayers.setText(String.format("%d players haven't answered yet", totalPlayers - answeredPlayers));
                     if (totalPlayers - answeredPlayers == 0) {
                         pollThread.interrupt();
-                        //everyone answered TODO change fragment
+                        game.changeFragment(AnswerListFragment.TAG_ANSWER_LIST_FRAGMENT);
                     }
                 } else if (msg.what == 1) {
                     totalThread.interrupt();
@@ -156,9 +157,7 @@ public class AnswerWaitFragment extends Fragment {
                 }
             }
         };
-
-
-
+        
 
         questionThread.start();
         totalThread.start();

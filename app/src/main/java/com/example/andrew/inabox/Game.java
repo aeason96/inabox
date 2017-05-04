@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.andrew.inabox.fragments.AnswerListFragment;
 import com.example.andrew.inabox.fragments.AnswerQuestionFragment;
 import com.example.andrew.inabox.fragments.AnswerWaitFragment;
 import com.example.andrew.inabox.fragments.AskQuestionFragment;
@@ -132,6 +133,10 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 break;
             case AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT:
                 fragmentClass = AnswerWaitFragment.class;
+                break;
+            case AnswerListFragment.TAG_ANSWER_LIST_FRAGMENT:
+                fragmentClass = AnswerListFragment.class;
+                break;
         }
 
         try {
