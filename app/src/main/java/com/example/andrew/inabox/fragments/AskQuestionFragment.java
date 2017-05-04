@@ -77,7 +77,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                     new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                                game.changeFragment(QuestionFragment.TAG_QUESTION_FRAGMENT);
+                                game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
                         }
                     }, new Response.ErrorListener() {
                         @Override
