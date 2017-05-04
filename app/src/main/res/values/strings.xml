@@ -9,4 +9,6 @@
     <string name="answer_placeholder">Your Answer Here</string>
     <string name="done_label">Done</string>
     <string name="table_row_placeholder">placeholder</string>
+    <string name="continue">Continue</string>
+    <string name="continue_str">continue</string>
 </resources>
