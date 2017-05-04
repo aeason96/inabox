@@ -51,8 +51,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     private GameRoomModel gameRoom;
     private PlayerModel player;
-    public String question;
-    public int questionID;
+    public String question = "";
+    public int questionID = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +81,25 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             joinGame = fragmentManager.findFragmentByTag(JoinGameFragment.TAG_JOIN_FRAGMENT);
         }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelable("gameRoom", gameRoom);
+        savedInstanceState.putParcelable("player", player);
+        savedInstanceState.putString("question", question);
+        savedInstanceState.putInt("questionID", questionID);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle sis) {
+        super.onRestoreInstanceState(sis);
+
+        gameRoom = sis.getParcelable("gameRoom");
+        player = sis.getParcelable("player");
+        question = sis.getString("question");
+        questionID = sis.getInt("questionID");
     }
 
     private void getLocation() {
