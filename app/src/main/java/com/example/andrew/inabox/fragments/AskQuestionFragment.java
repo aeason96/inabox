@@ -1,5 +1,6 @@
 package com.example.andrew.inabox.fragments;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -65,16 +67,16 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                 int game_room = game.getGameRoom().gameID;
                 String value = editTextQuestion.getText().toString();
                 QuestionModel q = new QuestionModel(value, game.getPlayer(), game.getGameRoom());
-                String url = Constants.BASE_URL + "question/" + game_room;
+                String url = Constants.BASE_URL + "question/create/";
                 JSONObject j = null;
                 try {
-                    j = new JSONObject(String.format("{\"value\": \"%s\", \"player\": \"%d\", \"game_room\": \"%d\"}", value, person_id, game_room));
+                    j = new JSONObject(String.format("{\"value\": \"%s\", \"creator\": \"%d\", \"game_room\": \"%d\"}", value, person_id, game_room));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 // Request a string response from the provided URL.
                 if (j != null) {
-                    new JsonObjectRequest(url, j, new Response.Listener<JSONObject>() {
+                    JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                                 game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
@@ -85,6 +87,8 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
 
                         }
                     });
+                    game.getRequestQueue().add(req);
+
                 }
             }
         }
