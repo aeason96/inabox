@@ -108,7 +108,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                                 public void onResponse(JSONObject response) {
                                     try {
                                         if (response.getBoolean("active")) {
-                                            if (response.getInt("id") != questionID) {
+                                            if (response.getInt("id") != game.questionID) {
                                                 questionID = response.getInt("id");
                                                 game.questionID = questionID;
                                                 questionText = response.getString("value");
