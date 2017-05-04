@@ -6,6 +6,8 @@
     android:id="@+id/create_frame">
 
     <EditText
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
         android:layout_width="165dp"
         android:layout_height="51dp"
         android:inputType="text"
@@ -17,6 +19,8 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
         android:layout_width="165dp"
         android:layout_height="51dp"
         android:inputType="textPassword"
@@ -28,6 +32,8 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
         android:id="@+id/username"
         android:layout_width="165dp"
         android:layout_height="51dp"
