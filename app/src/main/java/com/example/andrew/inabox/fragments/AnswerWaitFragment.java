@@ -39,6 +39,7 @@ public class AnswerWaitFragment extends Fragment {
     private Handler handler;
     int totalPlayers;
     int answeredPlayers;
+    Thread totalThread;
 
 
     public AnswerWaitFragment() {
@@ -59,7 +60,7 @@ public class AnswerWaitFragment extends Fragment {
         remainingPlayers = (TextView) view.findViewById(R.id.remaining_players);
 
 
-        final Thread totalThread = new Thread(new Runnable() {
+            totalThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -156,8 +157,10 @@ public class AnswerWaitFragment extends Fragment {
 
     @Override
     public void onResume() {
+        totalThread.interrupt();
         pollThread.interrupt();
         pollThread.start();
+        totalThread.start();
         super.onResume();
     }
 
