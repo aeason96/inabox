@@ -46,7 +46,9 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_answer_reveal, container, false);
-
+        if (game.answers != "") {
+            textViewAnswersNames.setText(game.answers);
+        }
         textViewAnswersNames = (TextView) view.findViewById(R.id.textViewAnswersNames);
         btnNextQuestion = (Button) view.findViewById(R.id.btnNextQuestion);
         btnNextQuestion.setOnClickListener(this);
@@ -63,7 +65,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
                         JSONObject creator = obj.getJSONObject("creator");
                         String value = obj.getString("value");
                         String name = creator.getString("name");
-                        builder.append(String.format("%s: %s\n\n", name, value));
+                        game.answers = builder.append(String.format("%s: %s\n\n", name, value)).toString();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -85,6 +87,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v){
         if (v.equals(btnNextQuestion)){
+            game.answers = "";
             goOn();
         }
     }

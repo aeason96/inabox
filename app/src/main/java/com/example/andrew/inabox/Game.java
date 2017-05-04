@@ -56,6 +56,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     public String question = "";
     public int questionID = -1;
     public boolean master;
+    public String answers = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +157,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         savedInstanceState.putString("question", question);
         savedInstanceState.putInt("questionID", questionID);
         savedInstanceState.putString("activeFragment", activeFragmentType);
+        savedInstanceState.putString("answers", answers);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -167,6 +169,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         player = sis.getParcelable("player");
         question = sis.getString("question");
         questionID = sis.getInt("questionID");
+        answers = sis.getString("answers");
         activeFragmentType = sis.getString("activeFragment");
     }
 
