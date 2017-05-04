@@ -119,8 +119,6 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                                         public void onResponse(JSONObject response) {
                                             try {
                                                 if (!response.getBoolean("accepting_players")) {
-                                                    Toast.makeText(game.getApplicationContext(), "game closed 1", Toast.LENGTH_SHORT).show();
-
                                                     Message message = mHandler.obtainMessage(1);
                                                     message.sendToTarget();
                                                 }

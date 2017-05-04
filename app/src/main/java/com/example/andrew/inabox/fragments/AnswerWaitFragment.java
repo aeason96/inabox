@@ -113,7 +113,13 @@ public class AnswerWaitFragment extends Fragment {
             public void handleMessage(Message msg) {
                 if (msg.what == 0) {
                     if (totalPlayers >= 0 && answeredPlayers >= 0) {
-                        remainingPlayers.setText(String.format("%d players haven't answered yet", totalPlayers - answeredPlayers));
+                        if (totalPlayers - answeredPlayers > 1) {
+                            remainingPlayers.setText(String.format("%d players haven't answered yet", totalPlayers - answeredPlayers));
+                        }
+                        else if (totalPlayers - answeredPlayers == 1) {
+                            remainingPlayers.setText(String.format("1 player hasn't answered yet"));
+
+                        }
                     }
                     if (totalPlayers - answeredPlayers == 0) {
                         pollThread.interrupt();
