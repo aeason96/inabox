@@ -63,8 +63,6 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         question = (TextView) view.findViewById(R.id.question_text);
         if (!game.question.equals("")) {
             question.setText(game.question);
-        } else {
-            question.setText(R.string.question_placeholder);
         }
 
         submitButton = (Button) view.findViewById(R.id.submit_answer);
