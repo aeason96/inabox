@@ -85,7 +85,7 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         if (v.equals(btnContinue)) {
             if (game.master) {
-                String url = Constants.BASE_URL + "question/" + game.questionID + "/unlock";
+                String url = Constants.BASE_URL + "question/" + game.questionID + "/unlock/";
                 StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
