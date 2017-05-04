@@ -9,6 +9,8 @@
     <TextView
         android:id="@+id/textViewAnswersNames"
         android:layout_width="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,6 +25,8 @@
 
     <Button
         android:id="@+id/btnNextQuestion"
+        android:background="@drawable/button_style"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next_question"
