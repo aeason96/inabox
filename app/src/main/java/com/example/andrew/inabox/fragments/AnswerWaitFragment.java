@@ -58,9 +58,14 @@ public class AnswerWaitFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_answer_wait, container, false);
         game.activeFragmentType = this.TAG_ANSWER_WAIT_FRAGMENT;
         remainingPlayers = (TextView) view.findViewById(R.id.remaining_players);
+        
 
+        return view;
+    }
 
-            totalThread = new Thread(new Runnable() {
+    @Override
+    public void onResume() {
+        totalThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -152,18 +157,6 @@ public class AnswerWaitFragment extends Fragment {
         });
         pollThread.start();
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        if (totalThread != null && !totalThread.isAlive()) {
-            totalThread.start();
-        }
-
-        if (pollThread != null && !pollThread.isAlive()) {
-            pollThread.start();
-        }
         super.onResume();
     }
 
