@@ -54,6 +54,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
     public static AnswerQuestionFragment newInstance() {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
+
         return fragment;
     }
 
@@ -78,15 +79,9 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         submitButton = (Button) view.findViewById(R.id.submit_answer);
 
         submitButton.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Override
-    public void onResume(){
         question.setText("");
         pollForQuestion();
-        super.onResume();
+        return view;
     }
 
     @Override
@@ -102,6 +97,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
             public void handleMessage(Message msg) {
                 if (msg.what == 0) { //set the player stuff
                     question.setText(questionText);
+
                     pollThread.interrupt();
                 }
             }
@@ -120,12 +116,14 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                                 public void onResponse(JSONObject response) {
                                     try {
                                         if (response.getBoolean("active")) {
-                                            questionID = response.getInt("id");
-                                            game.questionID = questionID;
-                                            questionText = response.getString("value");
-                                            game.question = questionText;
-                                            Message message = handler.obtainMessage(0);
-                                            message.sendToTarget();
+                                            if (response.getInt("id") != questionID) {
+                                                questionID = response.getInt("id");
+                                                game.questionID = questionID;
+                                                questionText = response.getString("value");
+                                                game.question = questionText;
+                                                Message message = handler.obtainMessage(0);
+                                                message.sendToTarget();
+                                            }
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
