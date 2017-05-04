@@ -2,6 +2,7 @@ package com.example.andrew.inabox.fragments;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -57,7 +58,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         game = (Game) getActivity();
         game.master = false;
         View view = inflater.inflate(R.layout.fragment_answer_question, container, false);
-
+        game.activeFragmentType = this.TAG_ANSWER_QUESTION_FRAGMENT;
 
         answer = (EditText) view.findViewById(R.id.answer_edit_text);
 
@@ -75,6 +76,11 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         return view;
     }
 
+    @Override
+    public void onPause() {
+        pollThread.interrupt();
+        super.onPause();
+    }
 
     public void pollForQuestion() {
 

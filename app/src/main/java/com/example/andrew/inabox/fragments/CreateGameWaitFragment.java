@@ -51,7 +51,7 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
         // Inflate the layout for this fragment
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_create_game_wait, container, false);
-
+        game.activeFragmentType = this.TAG_CREATE_GAME_WAIT_FRAGMENT;
         btnDoneAcceptingPlayers = (Button) view.findViewById(R.id.btnDoneAcceptingPlayers);
         textViewPlayersJoined = (TextView) view.findViewById(R.id.textViewPlayersJoined);
 

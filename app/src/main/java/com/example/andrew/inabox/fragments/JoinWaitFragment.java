@@ -54,7 +54,7 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_join_wait, container, false);
-
+        game.activeFragmentType = this.TAG_JOIN_WAIT_FRAGMENT;
         btnCancelJoinGame = (Button) view.findViewById(R.id.btnCancelJoinGame);
         textViewPlayersInGame = (TextView) view.findViewById(R.id.textViewPlayersInGame);
 
@@ -191,7 +191,7 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
             game.getRequestQueue().add(stringRequest);
             game.setPlayer(null);
             game.setGameRoom(null);
-            game.onBackPressed();
+            game.changeFragment(JoinGameFragment.TAG_JOIN_FRAGMENT);
         }
 
     }
