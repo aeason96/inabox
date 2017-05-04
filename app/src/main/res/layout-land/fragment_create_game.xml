@@ -3,9 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/create_frame">
+    android:id="@+id/create_frame"
+    android:background="@drawable/ic_trianglify_background">
 
     <EditText
+        android:textAlignment="center"
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
+        android:textColorHint="@color/redOrange"
         android:layout_width="165dp"
         android:layout_height="51dp"
         android:inputType="text"
@@ -17,6 +22,10 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
+        android:textAlignment="center"
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
+        android:textColorHint="@color/redOrange"
         android:layout_width="165dp"
         android:layout_height="51dp"
         android:inputType="textPassword"
@@ -28,6 +37,10 @@
         android:layout_marginTop="35dp" />
 
     <EditText
+        android:textAlignment="center"
+        android:background="@drawable/box_edit_text"
+        android:textColor="@color/red"
+        android:textColorHint="@color/redOrange"
         android:id="@+id/username"
         android:layout_width="165dp"
         android:layout_height="51dp"
@@ -39,6 +52,8 @@
         android:layout_marginTop="35dp" />
 
     <Button
+        android:background="@drawable/button_style"
+        android:textSize="20dp"
         android:id="@+id/start_game"
         android:layout_width="200dp"
         android:layout_height="80dp"

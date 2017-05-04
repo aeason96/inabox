@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.andrew.inabox.Game"
-    android:id="@+id/game">
+    android:id="@+id/game"
+    android:background="@drawable/ic_trianglify_background">
 
 </android.support.constraint.ConstraintLayout>
