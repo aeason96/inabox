@@ -37,7 +37,7 @@ public class CreateGameFragment extends Fragment implements View.OnClickListener
         // Inflate the layout for this fragment
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_create_game, container, false);
-
+        game.activeFragmentType = this.TAG_CREATE_FRAGMENT;
         gameName = (EditText) view.findViewById(R.id.game_name);
         gamePassword = (EditText) view.findViewById(R.id.game_password);
         username = (EditText) view.findViewById(R.id.username);

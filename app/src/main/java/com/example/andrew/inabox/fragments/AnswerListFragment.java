@@ -1,8 +1,10 @@
 package com.example.andrew.inabox.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +47,7 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_answer_list, container, false);
-
+        game.activeFragmentType = this.TAG_ANSWER_LIST_FRAGMENT;
         textViewAnswers = (TextView) view.findViewById(R.id.textViewAnswers);
         textViewQuestion = (TextView) view.findViewById(R.id.textViewQuestion);
         btnContinue = (Button) view.findViewById(R.id.btnContinue);
@@ -76,7 +78,6 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
         game.getRequestQueue().add(request);
         return view;
     }
-
 
     @Override
     public void onClick(View v) {

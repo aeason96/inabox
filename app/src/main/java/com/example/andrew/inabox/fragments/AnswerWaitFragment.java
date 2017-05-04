@@ -55,7 +55,7 @@ public class AnswerWaitFragment extends Fragment {
         game = (Game) getActivity();
         totalPlayers = -1;
         View view = inflater.inflate(R.layout.fragment_answer_wait, container, false);
-
+        game.activeFragmentType = this.TAG_ANSWER_WAIT_FRAGMENT;
         remainingPlayers = (TextView) view.findViewById(R.id.remaining_players);
 
         return view;
@@ -66,6 +66,7 @@ public class AnswerWaitFragment extends Fragment {
         pollForPlayers();
         super.onResume();
     }
+
 
     @Override
     public void onPause() {

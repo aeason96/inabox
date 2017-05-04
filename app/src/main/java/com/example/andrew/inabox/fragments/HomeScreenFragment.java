@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.interfaces.HomeScreenInteraction;
 
@@ -58,8 +59,9 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Game game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        game.activeFragmentType = this.TAG_HOME_FRAGMENT;
         createGame = (Button)view.findViewById(R.id.createGame);
         joinGame = (Button)view.findViewById(R.id.joinGame);
 

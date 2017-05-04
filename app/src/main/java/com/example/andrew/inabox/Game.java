@@ -1,6 +1,7 @@
 package com.example.andrew.inabox;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.andrew.inabox.fragments.AnswerListFragment;
 import com.example.andrew.inabox.fragments.AnswerQuestionFragment;
@@ -41,11 +44,11 @@ import org.json.JSONObject;
 
 public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
-    private Fragment homeScreenFragment, taskFragment, createGame, joinGame;
+    private Fragment homeScreenFragment, taskFragment, createGame, joinGame, activeFragment;
     private FragmentManager fragmentManager;
     private int gameID;
     private double latitude, longitude;
-
+    public String activeFragmentType = "";
     private RequestQueue queue;
 
     private GameRoomModel gameRoom;
@@ -73,6 +76,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             homeScreenFragment = new HomeScreenFragment();
             // Set dashboard fragment to be the default fragment shown
             ((RetainedFragmentInteraction) taskFragment).setActiveFragmentTag(HomeScreenFragment.TAG_HOME_FRAGMENT);
+            activeFragment = homeScreenFragment;
             fragmentManager.beginTransaction().replace(R.id.game, homeScreenFragment).commit();
         } else {
             // Get references to the fragments if they existed, null otherwise
@@ -83,11 +87,74 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     }
 
     @Override
+    public void onBackPressed() {
+        switch (activeFragmentType) {
+            case (HomeScreenFragment.TAG_HOME_FRAGMENT):
+                finish();
+                break;
+            case (JoinGameFragment.TAG_JOIN_FRAGMENT):
+                backInteraction();
+                break;
+            case (CreateGameFragment.TAG_CREATE_FRAGMENT):
+                backInteraction();
+                break;
+            default:
+                leaveGameNotify();
+                break;
+        }
+    }
+
+    private void backInteraction() {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
+
+    private void leaveGameNotify() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Leaving Game")
+                .setMessage("Are you sure you want to leave this game?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = Constants.BASE_URL + "player/" + getPlayer().id + "/delete";
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //
+                            }
+                        });
+
+                        getRequestQueue().add(stringRequest);
+                        setPlayer(null);
+                        setGameRoom(null);
+                        changeFragment(HomeScreenFragment.TAG_HOME_FRAGMENT);
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putParcelable("gameRoom", gameRoom);
         savedInstanceState.putParcelable("player", player);
         savedInstanceState.putString("question", question);
         savedInstanceState.putInt("questionID", questionID);
+        savedInstanceState.putString("activeFragment", activeFragmentType);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -99,6 +166,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
         player = sis.getParcelable("player");
         question = sis.getString("question");
         questionID = sis.getInt("questionID");
+        activeFragmentType = sis.getString("activeFragment");
     }
 
     private void getLocation() {
@@ -165,6 +233,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 ft.replace(R.id.game, fragment,
                         ((RetainedFragmentInteraction) taskFragment).getActiveFragmentTag());
                 ft.addToBackStack(null);
+                activeFragment = fragment;
                 ft.commit();
 
 

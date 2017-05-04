@@ -43,7 +43,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         game = (Game) getActivity();
         View view = inflater.inflate(R.layout.fragment_ask_question, container, false);
-
+        game.activeFragmentType = this.TAG_ASK_QUESTION_FRAGMENT;
         btnSubmit= (Button) view.findViewById(R.id.btnSubmit);
         editTextQuestion = (EditText) view.findViewById(R.id.editTextQuestion);
         btnSubmit.setOnClickListener(this);
