@@ -217,15 +217,16 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                 float y = values[SensorManager.DATA_Y];
                 float z = values[SensorManager.DATA_Z];
 
-                float speed = Math.abs(x+y+z - last_x - last_y - last_z) / diffTime * 10000;
+                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
 
-                if (speed > SHAKE_THRESHOLD) {
+                if (speed > 100) {
                     Log.d("sensor", "shake detected w/ speed: " + speed);
                     Toast.makeText(game, "shake detected w/ speed: " + speed, Toast.LENGTH_SHORT).show();
                 }
                 last_x = x;
                 last_y = y;
                 last_z = z;
+            }
         }
     }
 
