@@ -86,8 +86,10 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getInt("id") == game.getPlayer().id) {
+                            game.question = "";
                             game.changeFragment(AskQuestionFragment.TAG_ASK_QUESTION_FRAGMENT);
                         } else {
+                            game.question = "";
                             game.changeFragment(AnswerQuestionFragment.TAG_ANSWER_QUESTION_FRAGMENT);
                         }
                     } catch (JSONException e) {
@@ -100,6 +102,8 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
                     //
                 }
             });
+            game.getRequestQueue().add(req);
+
         }
 
     }
