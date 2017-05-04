@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/question_text"
-        android:text="@string/question_placeholder"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintTop_toTopOf="parent"
