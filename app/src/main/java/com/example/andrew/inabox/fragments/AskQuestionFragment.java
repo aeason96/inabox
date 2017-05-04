@@ -66,6 +66,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                 int person_id = game.getPlayer().id;
                 int game_room = game.getGameRoom().gameID;
                 String value = editTextQuestion.getText().toString();
+                game.question = value;
                 QuestionModel q = new QuestionModel(value, game.getPlayer(), game.getGameRoom());
                 String url = Constants.BASE_URL + "question/create/";
                 JSONObject j = null;
@@ -79,7 +80,13 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                     JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                                game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
+                            try {
+                                int questionID = response.getInt("id");
+                                game.questionID = questionID;
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            game.changeFragment(AnswerWaitFragment.TAG_ANSWER_WAIT_FRAGMENT);
                         }
                     }, new Response.ErrorListener() {
                         @Override

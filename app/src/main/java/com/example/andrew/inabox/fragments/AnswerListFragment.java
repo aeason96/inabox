@@ -53,6 +53,7 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                
                 textViewAnswers.setText(response.toString());
             }
         }, new Response.ErrorListener() {
