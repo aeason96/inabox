@@ -2,6 +2,9 @@ package com.example.andrew.inabox.fragments;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,8 +31,10 @@ import com.example.andrew.inabox.service.BackgroundService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static android.content.Context.SENSOR_SERVICE;
 
-public class AnswerQuestionFragment extends Fragment implements View.OnClickListener {
+
+public class AnswerQuestionFragment extends Fragment implements View.OnClickListener, SensorListener {
 
     public static final String TAG_ANSWER_QUESTION_FRAGMENT = "answer_question_fragment";
 
@@ -41,6 +46,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     private String questionText;
     private Thread pollThread;
     private Button submitButton;
+    private SensorManager sensorMgr;
 
     public AnswerQuestionFragment(){
 
@@ -60,7 +66,10 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         game.activeFragmentType = this.TAG_ANSWER_QUESTION_FRAGMENT;
 
         answer = (EditText) view.findViewById(R.id.answer_edit_text);
-
+        sensorMgr = (SensorManager) game.getSystemService(SENSOR_SERVICE);
+        sensorMgr.registerListener(this,
+                SensorManager.SENSOR_ACCELEROMETER
+                );
         question = (TextView) view.findViewById(R.id.question_text);
         if (!game.question.equals("")) {
             question.setText(game.question);
@@ -189,6 +198,39 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
             Log.d("background_service", "BackgroundService  TOLD TO START!");
 
         }
+
+    }
+    private long lastUpdate = 0;
+    private float last_x = 0;
+    private float last_y = 0;
+    private float last_z = 0;
+    @Override
+    public void onSensorChanged(int sensor, float[] values) {
+        if (sensor == SensorManager.SENSOR_ACCELEROMETER) {
+            long curTime = System.currentTimeMillis();
+            // only allow one update every 100ms.
+            if ((curTime - lastUpdate) > 100) {
+                long diffTime = (curTime - lastUpdate);
+                lastUpdate = curTime;
+
+                float x = values[SensorManager.DATA_X];
+                float y = values[SensorManager.DATA_Y];
+                float z = values[SensorManager.DATA_Z];
+
+                float speed = Math.abs(x+y+z - last_x - last_y - last_z) / diffTime * 10000;
+
+                if (speed > SHAKE_THRESHOLD) {
+                    Log.d("sensor", "shake detected w/ speed: " + speed);
+                    Toast.makeText(game, "shake detected w/ speed: " + speed, Toast.LENGTH_SHORT).show();
+                }
+                last_x = x;
+                last_y = y;
+                last_z = z;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(int sensor, int accuracy) {
 
     }
 }
