@@ -1,6 +1,8 @@
 package com.example.andrew.inabox.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -53,7 +55,20 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                textViewAnswersNames.setText(response.toString());
+                StringBuilder builder = new StringBuilder();
+
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject obj = response.getJSONObject(i);
+                        JSONObject creator = obj.getJSONObject("creator");
+                        String value = obj.getString("value");
+                        String name = creator.getString("name");
+                        builder.append(String.format("%s: %s\n\n", name, value));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                textViewAnswersNames.setText(builder.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -65,6 +80,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
 
         return view;
     }
+
 
     @Override
     public void onClick(View v){
