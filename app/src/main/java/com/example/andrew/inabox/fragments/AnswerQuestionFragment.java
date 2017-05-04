@@ -75,10 +75,10 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onStart(){
+    public void onAttach(Context context) {
         question.setText("");
         pollForQuestion();
-        super.onStart();
+        super.onAttach(context);
     }
 
     @Override
