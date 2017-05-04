@@ -106,6 +106,7 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            Toast.makeText(game.getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                             if (response.getBoolean("unlocked")) {
                                 goOn();
                             }
