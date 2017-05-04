@@ -76,25 +76,27 @@ public class CreateGameWaitFragment extends Fragment implements View.OnClickList
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                        if (game.getGameRoom() != null) {
+                            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
 
-                        // Request a string response from the provided URL.
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                                new Response.Listener<JSONArray>() {
-                                    @Override
-                                    public void onResponse(JSONArray response) {
-                                        numPlayers = response.length();
-                                        Message message = mHandler.obtainMessage();
-                                        message.sendToTarget();
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(jsonArrayRequest);
-                        Thread.sleep(500);
+                            // Request a string response from the provided URL.
+                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                                    new Response.Listener<JSONArray>() {
+                                        @Override
+                                        public void onResponse(JSONArray response) {
+                                            numPlayers = response.length();
+                                            Message message = mHandler.obtainMessage();
+                                            message.sendToTarget();
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(jsonArrayRequest);
+                            Thread.sleep(500);
+                        }
                     }
                     Looper.loop();
                 }

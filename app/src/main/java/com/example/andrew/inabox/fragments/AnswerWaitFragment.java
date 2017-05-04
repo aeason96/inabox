@@ -40,8 +40,6 @@ public class AnswerWaitFragment extends Fragment {
     int totalPlayers;
     int answeredPlayers;
 
-    int questionID;
-
 
     public AnswerWaitFragment() {
 
@@ -55,7 +53,6 @@ public class AnswerWaitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         game = (Game) getActivity();
-        questionID = -1;
         totalPlayers = -1;
         View view = inflater.inflate(R.layout.fragment_answer_wait, container, false);
 
@@ -84,55 +81,24 @@ public class AnswerWaitFragment extends Fragment {
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
-                        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                totalPlayers = response.length() - 1; // -1 because question asker doesn't count
-                                Message message = handler.obtainMessage(1);
-                                message.sendToTarget();
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(request);
-                        Thread.sleep(500);
-                    }
-                } catch (InterruptedException e) {
-                    Looper.loop();
-                }
-            }
-        });
-
-        final Thread questionThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                try {
-                    while (!Thread.currentThread().isInterrupted()) {
-                        String url = Constants.BASE_URL + "question/" + game.getGameRoom().gameID;
-                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    questionID = response.getInt("id");
-                                    Message message = handler.obtainMessage(2);
+                        if (game.getGameRoom() != null) {
+                            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                                @Override
+                                public void onResponse(JSONArray response) {
+                                    totalPlayers = response.length() - 1; // -1 because question asker doesn't count
+                                    Message message = handler.obtainMessage(1);
                                     message.sendToTarget();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(request);
-                        Thread.sleep(500);
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(request);
+                            Thread.sleep(500);
+                        }
                     }
                 } catch (InterruptedException e) {
                     Looper.loop();
@@ -153,14 +119,11 @@ public class AnswerWaitFragment extends Fragment {
                     }
                 } else if (msg.what == 1) {
                     totalThread.interrupt();
-                } else if (msg.what == 2) {
-                    questionThread.interrupt();
                 }
             }
         };
         
 
-        questionThread.start();
         totalThread.start();
 
         pollThread = new Thread(new Runnable() {
@@ -169,8 +132,8 @@ public class AnswerWaitFragment extends Fragment {
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        if (questionID != -1) {
-                            String url = Constants.BASE_URL + "answers/" + questionID + "/";
+                        if (game.questionID != -1) {
+                            String url = Constants.BASE_URL + "answers/" + game.questionID + "/";
                             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                                 @Override
                                 public void onResponse(JSONArray response) {

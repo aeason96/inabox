@@ -88,32 +88,34 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
             @Override
             public void run() {
                 Looper.prepare();
-                String url = Constants.BASE_URL + "question/" + game.getGameRoom().gameID;
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if (response.getBoolean("active")) {
-                                        questionID = response.getInt("id");
-                                        game.questionID = questionID;
-                                        questionText = response.getString("value");
-                                        game.question = questionText;
-                                        Message message = handler.obtainMessage(0);
-                                        message.sendToTarget();
+                        if (game.getGameRoom() != null) {
+                            String url = Constants.BASE_URL + "question/" + game.getGameRoom().gameID;
+                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if (response.getBoolean("active")) {
+                                            questionID = response.getInt("id");
+                                            game.questionID = questionID;
+                                            questionText = response.getString("value");
+                                            game.question = questionText;
+                                            Message message = handler.obtainMessage(0);
+                                            message.sendToTarget();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // something should probably go here
-                            }
-                        });
-                        game.getRequestQueue().add(request);
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // something should probably go here
+                                }
+                            });
+                            game.getRequestQueue().add(request);
+                        }
                         Thread.sleep(500);
                     }
                 } catch (InterruptedException e) {

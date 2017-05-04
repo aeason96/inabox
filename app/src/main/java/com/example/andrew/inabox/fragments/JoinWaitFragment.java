@@ -91,51 +91,53 @@ public class JoinWaitFragment extends Fragment implements View.OnClickListener {
                 Looper.prepare();
                 try {
                     while (!Thread.currentThread().isInterrupted()) {
-                        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
+                        if (game.getGameRoom() != null) {
+                            String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/players";
 
-                        // Request a string response from the provided URL.
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                                new Response.Listener<JSONArray>() {
-                                    @Override
-                                    public void onResponse(JSONArray response) {
-                                        numPlayers = response.length();
-                                        Message message = mHandler.obtainMessage(0);
-                                        message.sendToTarget();
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(jsonArrayRequest);
-                        String url2 = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID;
+                            // Request a string response from the provided URL.
+                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                                    new Response.Listener<JSONArray>() {
+                                        @Override
+                                        public void onResponse(JSONArray response) {
+                                            numPlayers = response.length();
+                                            Message message = mHandler.obtainMessage(0);
+                                            message.sendToTarget();
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(jsonArrayRequest);
+                            String url2 = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID;
 
-                        // Request a string response from the provided URL.
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url2, null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            if (!response.getBoolean("accepting_players")) {
-                                                Toast.makeText(game.getApplicationContext(), "game closed 1", Toast.LENGTH_SHORT).show();
+                            // Request a string response from the provided URL.
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url2, null,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                if (!response.getBoolean("accepting_players")) {
+                                                    Toast.makeText(game.getApplicationContext(), "game closed 1", Toast.LENGTH_SHORT).show();
 
-                                                Message message = mHandler.obtainMessage(1);
-                                                message.sendToTarget();
+                                                    Message message = mHandler.obtainMessage(1);
+                                                    message.sendToTarget();
+                                                }
+                                            }
+                                            catch(JSONException ex){
+                                                ex.printStackTrace();
                                             }
                                         }
-                                        catch(JSONException ex){
-                                            ex.printStackTrace();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                //
-                            }
-                        });
-                        game.getRequestQueue().add(jsonObjectRequest);
-                        Thread.sleep(500);
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //
+                                }
+                            });
+                            game.getRequestQueue().add(jsonObjectRequest);
+                            Thread.sleep(500);
+                        }
                     }
                     Looper.loop();
                 }
