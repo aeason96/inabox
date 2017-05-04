@@ -152,6 +152,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("boolean", master);
         savedInstanceState.putParcelable("gameRoom", gameRoom);
         savedInstanceState.putParcelable("player", player);
         savedInstanceState.putString("question", question);
@@ -164,7 +165,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
     @Override
     public void onRestoreInstanceState(Bundle sis) {
         super.onRestoreInstanceState(sis);
-
+        master = sis.getBoolean("boolean"); 
         gameRoom = sis.getParcelable("gameRoom");
         player = sis.getParcelable("player");
         question = sis.getString("question");
