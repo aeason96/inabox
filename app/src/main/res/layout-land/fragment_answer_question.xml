@@ -40,7 +40,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.609"
+        app:layout_constraintVertical_bias="0.797"
         app:layout_constraintBottom_toTopOf="@+id/submit_answer" />
 
 
@@ -50,7 +50,7 @@
         android:text="@string/done_label"
         android:id="@+id/submit_answer"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="186dp"
+        android:layout_marginBottom="43dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
