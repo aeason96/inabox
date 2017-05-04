@@ -48,6 +48,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
     public static AnswerQuestionFragment newInstance() {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
+
         return fragment;
     }
 
@@ -70,15 +71,9 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         submitButton = (Button) view.findViewById(R.id.submit_answer);
 
         submitButton.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
         question.setText("");
         pollForQuestion();
-        super.onAttach(context);
+        return view;
     }
 
     @Override

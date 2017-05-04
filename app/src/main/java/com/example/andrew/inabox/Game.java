@@ -240,8 +240,6 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 ft.addToBackStack(null);
                 activeFragment = fragment;
                 ft.commit();
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
