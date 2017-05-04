@@ -74,7 +74,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
     }
 
     private void goOn(){
-        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
+        String url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/currentmaster/";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject response) {
 

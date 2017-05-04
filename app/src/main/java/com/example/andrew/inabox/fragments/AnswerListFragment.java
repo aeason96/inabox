@@ -97,6 +97,19 @@ public class AnswerListFragment extends Fragment implements View.OnClickListener
                     }
                 });
                 game.getRequestQueue().add(request);
+
+                url = Constants.BASE_URL + "gameroom/" + game.getGameRoom().gameID + "/questionmaster/";
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //
+                    }
+                });
+                game.getRequestQueue().add(req);
+
                 goOn();
             }
             else{
