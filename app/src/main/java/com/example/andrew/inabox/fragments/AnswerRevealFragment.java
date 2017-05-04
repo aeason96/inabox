@@ -51,7 +51,7 @@ public class AnswerRevealFragment extends Fragment implements View.OnClickListen
         btnNextQuestion = (Button) view.findViewById(R.id.btnNextQuestion);
         btnNextQuestion.setOnClickListener(this);
 
-        String url = Constants.BASE_URL + "question/" + game.getGameRoom().gameID + "/";
+        String url = Constants.BASE_URL + "answers/" + game.questionID + "/";
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
