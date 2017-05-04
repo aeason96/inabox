@@ -51,6 +51,8 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
 
     private GameRoomModel gameRoom;
     private PlayerModel player;
+    public String question;
+    public int questionID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

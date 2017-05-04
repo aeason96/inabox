@@ -148,6 +148,7 @@ public class AnswerWaitFragment extends Fragment {
                     remainingPlayers.setText(String.format("%d players haven't answered yet", totalPlayers - answeredPlayers));
                     if (totalPlayers - answeredPlayers == 0) {
                         pollThread.interrupt();
+
                         game.changeFragment(AnswerListFragment.TAG_ANSWER_LIST_FRAGMENT);
                     }
                 } else if (msg.what == 1) {

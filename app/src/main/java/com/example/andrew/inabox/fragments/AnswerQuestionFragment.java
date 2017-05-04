@@ -92,7 +92,10 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
                                 try {
                                     if (response.getBoolean("active")) {
                                         questionID = response.getInt("id");
+                                        game.questionID = questionID;
+                                        game.question = questionText.toString();
                                         questionText = response.getString("value");
+
                                         Message message = handler.obtainMessage(0);
                                         message.sendToTarget();
                                     }
