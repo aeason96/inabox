@@ -1,8 +1,5 @@
 package com.example.andrew.inabox.fragments;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,8 +16,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.R;
 import com.example.andrew.inabox.models.Constants;
-import com.example.andrew.inabox.models.GameRoomModel;
-import com.example.andrew.inabox.models.QuestionModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +62,6 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
                 int game_room = game.getGameRoom().gameID;
                 String value = editTextQuestion.getText().toString();
                 game.question = value;
-                QuestionModel q = new QuestionModel(value, game.getPlayer(), game.getGameRoom());
                 String url = Constants.BASE_URL + "question/create/";
                 JSONObject j = null;
                 try {
