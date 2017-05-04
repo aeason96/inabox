@@ -224,8 +224,7 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
                 public void onErrorResponse(VolleyError error) {
                     try {
                         Toast.makeText(getApplicationContext(), new JSONObject(new String(error.networkResponse.data)).getString("detail"), Toast.LENGTH_LONG).show();
-                    }
-                    catch (JSONException ex){
+                    } catch (JSONException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -233,6 +232,35 @@ public class Game extends AppCompatActivity implements HomeScreenInteraction {
             queue.add(request);
         }
     }
+    boolean idOfQ = false;
+    public boolean whoAsksAQuestion() {
+        String url = Constants.BASE_URL + "gameroom/" + gameRoom.gameID + "/questionmaster/";
+        boolean result;
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("response: ", response.toString());
+                        try {
+                            JSONObject obj = response.getJSONObject("questionmaster");
+                            if (obj.getInt("id") == player.id) {
+                                idOfQ = true;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error: ", "In whoAsksAquestion");
+                    }
+                });
+        return idOfQ;
+    }
+
 
     public void setPlayer(PlayerModel player){
         this.player = player;

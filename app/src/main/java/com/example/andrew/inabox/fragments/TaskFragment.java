@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.example.andrew.inabox.Game;
 import com.example.andrew.inabox.interfaces.RetainedFragmentInteraction;
 import com.example.andrew.inabox.service.BackgroundService;
 
@@ -18,7 +19,7 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
 
     public static final String TAG_TASK_FRAGMENT = "task_fragment";
     private String mActiveFragmentTag;
-
+    Game game;
     public static TaskFragment newInstance() {
         TaskFragment fragment = new TaskFragment();
         return fragment;
@@ -28,6 +29,7 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        game = (Game) getActivity();
         setRetainInstance(true);
         if (!isBackgroundServiceRunning()) {
             startBackgroundServiceNeeded();
@@ -74,6 +76,8 @@ public class TaskFragment extends Fragment implements RetainedFragmentInteractio
         // check if the background service is running, if not then start it
         if (!isBackgroundServiceRunning()) {
             Intent intent = new Intent(getActivity(), BackgroundService.class);
+            Bundle data = intent.getExtras();
+            //data.putString("player_id", );
             getActivity().startService(intent);
             Log.d("background_service", "BackgroundService  TOLD TO START!");
 
