@@ -71,15 +71,13 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
         submitButton.setOnClickListener(this);
 
-        pollForQuestion();
-
         return view;
     }
 
     @Override
     public void onResume(){
         question.setText("");
-        pollThread.start();
+        pollForQuestion();
         super.onResume();
     }
 
