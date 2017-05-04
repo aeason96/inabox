@@ -64,7 +64,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         game = (Game) getActivity();
         game.master = false;
         View view = inflater.inflate(R.layout.fragment_answer_question, container, false);
-
+        mSensorManager = (SensorManager) game.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -212,7 +212,7 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
 
 
         //Get x,y and z values
-        float ERROR = (float) 7.0;
+        float ERROR = (float) 35.0;
         float x,y,z;
         x = e.values[0];
         y = e.values[1];
@@ -245,8 +245,9 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         //Horizontal Shake Detected!
         if (diffX > diffY) {
 
-            question.setText("");
-            Toast.makeText(game, "Shake Detected!", Toast.LENGTH_SHORT).show();
+            answer.setText("");
+            Log.d("Sensor: ", " " + diffX);
+            //Toast.makeText(game, "Shake Detected!", Toast.LENGTH_SHORT).show();
         }
 
 
