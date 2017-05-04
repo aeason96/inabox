@@ -2,6 +2,10 @@ package com.example.andrew.inabox.fragments;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,7 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class AnswerQuestionFragment extends Fragment implements View.OnClickListener {
+public class AnswerQuestionFragment extends Fragment implements View.OnClickListener, SensorEventListener {
 
     public static final String TAG_ANSWER_QUESTION_FRAGMENT = "answer_question_fragment";
 
@@ -41,6 +45,8 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
     private String questionText;
     private Thread pollThread;
     private Button submitButton;
+    private Sensor mAccelerometer;
+    private SensorManager mSensorManager;
 
     public AnswerQuestionFragment(){
 
@@ -59,6 +65,8 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
         game.master = false;
         View view = inflater.inflate(R.layout.fragment_answer_question, container, false);
 
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         answer = (EditText) view.findViewById(R.id.answer_edit_text);
 
@@ -190,6 +198,58 @@ public class AnswerQuestionFragment extends Fragment implements View.OnClickList
             Log.d("background_service", "BackgroundService  TOLD TO START!");
 
         }
+
+    }
+
+    private float x1=0, x2=0, x3=0;
+    @Override
+    public void onSensorChanged(SensorEvent e) {
+
+
+        //Get x,y and z values
+        float ERROR = (float) 7.0;
+        float x,y,z;
+        x = e.values[0];
+        y = e.values[1];
+        z = e.values[2];
+
+
+        float diffX = Math.abs(x1 - x);
+        float diffY = Math.abs(x2 - y);
+        float diffZ = Math.abs(x3 - z);
+
+        //Handling ACCELEROMETER Noise
+        if (diffX < ERROR) {
+
+            diffX = (float) 0.0;
+        }
+        if (diffY < ERROR) {
+            diffY = (float) 0.0;
+        }
+        if (diffZ < ERROR) {
+
+            diffZ = (float) 0.0;
+        }
+
+
+        x1 = x;
+        x2 = y;
+        x3 = z;
+
+
+        //Horizontal Shake Detected!
+        if (diffX > diffY) {
+
+            question.setText("");
+            Toast.makeText(game, "Shake Detected!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 }
